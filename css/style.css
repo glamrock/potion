@@ -59,6 +59,10 @@ input {
 	margin: 50px auto 0 auto;
 }
 
+.invisible {
+	display: none;
+}
+
 #file {
 	width: 0;
 	height: 0;

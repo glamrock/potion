@@ -1,4 +1,4 @@
-var b, lock;
+var s, b, lock;
 var full = [];
 
 // FACES
@@ -108,19 +108,11 @@ $("#tag").keydown(function(event) {
 			return false;
 		}
 		if ($('#tag').val().toLowerCase() === 'store') {
-			talk('smile', 'enter tag');
-			$('#tag').val('');
-			$("#tag").keydown(function(event) {
-				if (event.keyCode === 13) {
-					if (gettag()) {
-						setTimeout("$('input[type=file]').trigger('click')", 600);
-					}
-					return false;
-				}
-			});
+			talk('smile', 'ok');
+			setTimeout("$('#file').trigger('click')", 600);
 		}
 		if ($('#tag').val().toLowerCase() === 'listen') {
-			talk('smile', 'enter tag');
+			//talk('smile', 'enter tag');
 			$('#tag').val('');
 			$('#input').submit(function() {
 				if (gettag()) {
@@ -142,7 +134,6 @@ function gettag() {
 	else if ($('#tag').val().match(/^(\w|\s){5,64}$/) 
 	&& $('#tag').val() !== 'listen'
 	&& $('#tag').val() !== 'store') {
-		talk('smile', 'ok');
 		return true;
 	}
 	else {
@@ -155,11 +146,22 @@ function handleFile(evt) {
 	var file = evt.target.files;
 	var reader = new FileReader();
 	if (file[0].type.match(/audio/)) {
-		if (file[0].size > (8*1048576)) {
+		if (file[0].size > (20*1048576)) {
 			talk('sad', 'file too large');
 		}
 		else {
-			$('#input').submit();
+			talk('smile', 'enter tag');
+			$('#tag').val('');
+			$("#tag").keydown(function(event) {
+				if (event.keyCode === 13) {
+					if (gettag()) {
+						b = setInterval("blink(1)", 420);
+						talk('neutral', 'checking');
+						$('#task').val('check');
+						$('#input').submit();
+					}
+				}
+			});
 		}
 	}
 	else {
@@ -181,20 +183,31 @@ $('td').click(function(){
 $(document).ready(function() {   
 	$('form').ajaxForm({
 		beforeSubmit: function() {
-			b = setInterval("blink(1)", 210);
-			//talk('neutral', 'uploading');
-			$('#message').html('<div id="progress"><div id="bar"></div></div>');
+			if ($('#task').val() === 'store') {
+				clearInterval(s);
+				clearInterval(b);
+				b = setInterval("blink(1)", 210);
+				$('#message').html('<div id="progress"><div id="bar"></div></div>');
+			}
 		},
 		uploadProgress: function(event, position, total, percent) {
 			$('#bar').width(percent + '%');
 		},
 		success: function(data) {
 			clearInterval(b);
+			s = setInterval('blink(1)', 4500);
 			if (data === 'OK') {
-				setTimeout("talk('smile', 'done')", 300);
+				if ($('#task').val() === 'check') {
+					talk('smile', 'ok');
+					$('#task').val('store');
+					setTimeout("$('#input').submit()", 300);
+				}
+				else if ($('#task').val() === 'store') {
+					setTimeout("talk('smile', 'done')", 300);
+				}
 			}
 			else if (data === 'EXIST') {
-				setTimeout("talk('sad', 'tag already exists')", 300);
+				talk('sad', 'tag already exists');
 			}
 			else if (data === 'ERROR') {
 				setTimeout("talk('sad', 'error')", 300);
@@ -207,5 +220,5 @@ $('#tag').select();
 animate(['p1','p2','p3', 'p4']);
 setTimeout("talk('smile', 'store audio, listen anywhere.', 1)", 680);
 setTimeout('blink(3)', 1500);
-setInterval('blink(1)', 4500);
+s = setInterval('blink(1)', 4500);
 setTimeout('talk("smile", "type \'store\' or \'listen\'", 0)', 2700);
