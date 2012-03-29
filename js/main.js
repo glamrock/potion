@@ -69,13 +69,13 @@ function animate(faces) {
 	}
 }
 
-function talk(face, message) {
+function talk(face, message, l) {
 	lock = 1;
 	$('#message').html('');
 	var tp = 0;
 	for (var p=0; p != message.length; p++) {
 		setTimeout('$("#message").html($("#message").html() + "' + message[p] + '")', tp);
-		tp += 30;
+		tp += 40;
 	}
 	var ti = 0;
 	for (var i=0; i < (message.length/6); i++) {
@@ -84,7 +84,9 @@ function talk(face, message) {
 		ti += 120;
 		setTimeout('draw(' + face + ', 0)', ti);
 	}
-	setTimeout('lock = 0', ti + 20);
+	if (!l) {
+		setTimeout('lock = 0', tp);
+	}
 }
 
 function blink(n) {
@@ -122,7 +124,7 @@ $("#tag").keydown(function(event) {
 			$('#tag').val('');
 			$('#input').submit(function() {
 				if (gettag()) {
-				
+					//setInterval("animate(['p1','p2','p3', 'p4'])", 680);
 				}
 				return false;
 			});
@@ -152,8 +154,8 @@ function gettag() {
 function handleFile(evt) {
 	var file = evt.target.files;
 	var reader = new FileReader();
-	if (file[0].type.match(/./)) {
-		if (file[0].size > (8096*1024)) {
+	if (file[0].type.match(/audio/)) {
+		if (file[0].size > (8*1048576)) {
 			talk('sad', 'file too large');
 		}
 		else {
@@ -176,30 +178,34 @@ $('td').click(function(){
 	}
 });
 
-//setInterval("animate(['p1','p2','p3', 'p4'])", 680);
-animate(['p1','p2','p3', 'p4']);
-$('#tag').select();
-setTimeout("talk('smile', 'store sound, listen to it anywhere.')", 680);
-setTimeout('blink(3)', 1500);
-setTimeout('talk("smile", "type \'store\' or \'listen\'")', 2100);
-
 $(document).ready(function() {   
 	$('form').ajaxForm({
 		beforeSubmit: function() {
 			b = setInterval("blink(1)", 210);
-			talk('neutral', 'uploading');
+			//talk('neutral', 'uploading');
+			$('#message').html('<div id="progress"><div id="bar"></div></div>');
+		},
+		uploadProgress: function(event, position, total, percent) {
+			$('#bar').width(percent + '%');
 		},
 		success: function(data) {
 			clearInterval(b);
 			if (data === 'OK') {
-				talk('smile', 'done');
+				setTimeout("talk('smile', 'done')", 300);
 			}
 			else if (data === 'EXIST') {
-				talk('sad', 'error');
+				setTimeout("talk('sad', 'tag already exists')", 300);
 			}
 			else if (data === 'ERROR') {
-				talk('sad', 'error');
+				setTimeout("talk('sad', 'error')", 300);
 			}
 		}
 	});
 });
+
+$('#tag').select();
+animate(['p1','p2','p3', 'p4']);
+setTimeout("talk('smile', 'store audio, listen anywhere.', 1)", 680);
+setTimeout('blink(3)', 1500);
+setInterval('blink(1)', 4500);
+setTimeout('talk("smile", "type \'store\' or \'listen\'", 0)', 2700);

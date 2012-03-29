@@ -64,3 +64,17 @@ input {
 	height: 0;
 	opacity: 0;
 }
+
+#progress {
+	margin-top: 10px;
+	width: 230px;
+	height: 15px;
+	border: 1px solid #FF3139;
+	text-align: center;
+}
+
+#bar {
+	width: 0%;
+	height: 15px;
+	background-color: #FF3139;
+}
