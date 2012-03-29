@@ -1,6 +1,6 @@
 ## Potion
 
 ### TODO:
-* [o] Make mp3 files only accessible via Potion interface
-* [o] Check if file exists before uploading
-* [o] Create player interface
+* __[o]__ Make mp3 files only accessible via Potion interface
+* __[o]__ Check if file exists before uploading
+* __[o]__ Create player interface
