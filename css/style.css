@@ -1,0 +1,66 @@
+@font-face {
+	font-family: coder;
+	src: url('coder.ttf');
+}
+
+body {
+	background: #10122A;
+	margin: 1.4%;
+	font: 12px Verdana, Helvetica, Arial;
+	line-height: 2.6em;
+}
+
+div.main {
+	box-shadow: 0px 2px #97CEEC;
+	padding-top: 10px;
+	width: 230px;
+	height: 300px;
+	margin: 10% auto;
+}
+
+#message {
+	font: 16px coder;
+	font-smooth: never;
+	margin-top: 30px;
+	color: #FF3139;
+	width: 230px;
+	height: 20px;
+	text-align: center;
+}
+
+div.box {
+	background-color: #FF3139;
+	width: 143px;
+	height: 143px;
+	margin: 0 auto;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+td {
+	width: 11px;	
+	height: 11px;
+	padding: 0;
+	margin: 0;
+	background-color: none;
+}
+
+input {
+	background-color: transparent;
+	border: none;
+	-webkit-appearance: none;
+	outline: none;
+	width: 100%;
+	display: block;
+	font: 16px coder;
+	color: #97CEEC;
+	margin: 50px auto 0 auto;
+}
+
+#file {
+	width: 0;
+	height: 0;
+	opacity: 0;
+}
