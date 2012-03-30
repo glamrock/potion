@@ -3,7 +3,7 @@ $site = 'https://potion.io/';
 $store = '/srv/data/';
 $ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
 
-if (preg_match('/^\w{5,64}$/', $_GET['tag'])
+if (preg_match('/^(\w|\s){5,64}$/', $_GET['tag'])
 && $_GET['tag'] != 'play'
 && $_GET['tag'] != 'store'
 && $_SERVER['HTTP_REFERER'] == $site) {
@@ -24,7 +24,7 @@ if (preg_match('/^\w{5,64}$/', $_GET['tag'])
 			echo 'EXIST';
 		}
 		else {
-			system('ffmpeg -b 192k -i '.$_FILES['file']['tmp_name'].' '.$store.$tag.'.webm');
+			system('ffmpeg -b 192k -i "'.$_FILES['file']['tmp_name'].'" '.$store.$tag.'.webm');
 			echo 'OK';
 		}
 	}

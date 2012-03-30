@@ -172,13 +172,13 @@ function gettag() {
 		talk('neutral', 'tag too small', 0);
 		return false;
 	}
-	else if ($('#tag').val().match(/^\w{5,64}$/) 
+	else if ($('#tag').val().match(/^(\w|\s){5,64}$/) 
 	&& $('#tag').val() !== 'play'
 	&& $('#tag').val() !== 'store') {
 		return true;
 	}
 	else {
-		talk('neutral', 'letters and numbers only', 0);
+		talk('neutral', 'letters, numbers and spaces only', 0);
 		return false;
 	}
 }
