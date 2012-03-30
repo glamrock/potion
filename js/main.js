@@ -240,7 +240,7 @@ $(document).ready(function() {
 						$('#expander').animate({height: '32px',
 						'margin-top': '-=32px'}, 500, function() { 
 							$('#player').fadeIn();
-							$.get('process.php?task=id3k&tag=' + $('#tag').val(), function(msg) {
+							$.get('process.php?task=id3&tag=' + $('#tag').val(), function(msg) {
 								b = setTimeout('talk(0, "' + msg + '", 0)', 1900);
 							});
 						});
