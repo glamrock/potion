@@ -18,19 +18,21 @@
 				<li>We care more about you having a good experience than using your content to run ads.</li>
 				<li>We keep your audio at a high bitrate, because screw low bitrates.</li>
 			</ul>
-		</p>
+
 		<div style="float:left">
 			<p class="hot">Features coming up:</p>
 			<p>
-				<li>Playlists!</li>
-				<li>Privacy options!</li>
-			</p>
+				<ul>
+					<li>Playlists!</li>
+					<li>Privacy options!</li>
+					<li>Cats? :3</li>
+				</ul>
 		</div>
 		<div style="float:right">
 			<p class="hot">Contact</p>
 			<p>
 				Potion is coded by <a href="http://nadim.cc" target="_blank">me</a>.<br />
-				Drop me a <a href="mailto:contact@potion.io?subject=I love Potion!">line</a>.
+				Drop me a <a href="mailto:contact@potion.io?subject=I%20love%20Potion!">line</a>.
 			</p>
 		</div>
 		<div style="margin-top:150px;">

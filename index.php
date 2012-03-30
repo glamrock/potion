@@ -87,7 +87,7 @@
 			<input type="file" name="file" id="file" />
 		</form>
 		<div id="expander">
-			<audio id="player" src="" type="audio/webm" controls="controls"></audio>
+			<audio id="player" src="stop" controls="controls"></audio>
 		</div>
 	</div>
 	<script type="text/javascript" src="js/main.js"></script>
