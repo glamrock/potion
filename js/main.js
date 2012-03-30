@@ -154,7 +154,7 @@ function menu(i) {
 			}
 			else if ($('#tag').val().toLowerCase() === 'store') {
 				talk('smile', 'give it to me', 1);
-				setTimeout("$('#file').trigger('click')", 800);
+				setTimeout("$('#file').trigger('click')", 725);
 			}
 			else if ($('#tag').val().toLowerCase() === 'play') {
 				$('#task').val('play');
