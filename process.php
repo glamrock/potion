@@ -41,7 +41,7 @@ if (preg_match('/^\w{5,64}$/', $_GET['tag'])
  			require_once('id3/getid3.php');
 			$getID3 = new getID3;
 			$id3 = $getID3->analyze($store.$_GET['tag'].'.webm');
-			echo htmlentities($id3['matroska']['comments']['title'][0]);
+			echo $id3['matroska']['comments']['title'][0];
 		}
 	}
 }
