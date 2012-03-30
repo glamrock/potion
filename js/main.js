@@ -89,7 +89,7 @@ function talk(face, message, l) {
 	}
 	if (face) {
 		var ti = 0;
-		for (var i=0; i < (message.length/6); i++) {
+		for (var i=0; i < (message.length/5); i++) {
 			ti += 120;
 			setTimeout('draw(' + face + 'talk, 0)', ti);
 			ti += 120;
