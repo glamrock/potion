@@ -14,7 +14,7 @@
 			Potion lets you safely store (and share!) your audio without logins or delays.
 			<ul>
 				<li>Your audio is immediately accessible from any browser.</li>
-				<li>We have pretty good security standards: pick a tag that's hard to guess and we'll keep it that way.</li>
+				<li>We take privacy seriously: your audio is encrypted.</li>
 				<li>We care more about you having a good experience than using your content to run ads.</li>
 				<li>We keep your audio at a high bitrate, because screw low bitrates.</li>
 			</ul>
