@@ -4,7 +4,7 @@
 	<meta name="keywords" content="Potion" />
 	<meta name="description" content="Soundbytes" />
 	<link rel="icon" type="image/gif" href="img/favicon.gif" />
-	<title>potion</title>
+	<title>Potion</title>
 	<link rel="stylesheet" href="css/style.css" type="text/css" />
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="js/form.js"></script>
@@ -91,5 +91,22 @@
 		</div>
 	</div>
 	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#tag').select();
+			<?php
+				if (isset($_GET['p'])) {
+					//echo "setTimeout(\"$('#task').val('play'); $('#tag').val('".$_GET['p']."'); $('#input').submit(); menu(1);\", 1000);";
+				}
+				else {
+					echo "animate(['p1','p2','p3', 'p4']);
+					setTimeout(\"talk('smile', 'store audio, play anywhere.', 1)\", 680);
+					setTimeout('menu()', 2500);
+					s = setInterval('blink(1)', 4500);";
+				}
+			?>
+		});
+	</script>
+	<a href="about" class="about">about</a>
 </body>
 </html>

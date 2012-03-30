@@ -6,8 +6,31 @@
 body {
 	background: #10122A;
 	margin: 1.4%;
-	font: 12px Verdana, Helvetica, Arial;
-	line-height: 2.6em;
+	font: 14px coder, Verdana, Helvetica, Arial;
+	line-height: 2em;
+	color: #97CEEC;
+}
+
+h2 {
+	font-weight: normal;
+	margin-top: 0;
+	color: #FF3139;
+}
+
+p.hot {
+	color: #FF3139;
+}
+
+a {
+	text-decoration: none;
+	color: #10122A;
+	background-color: #FF3139;
+	padding: 2px;
+}
+
+a:hover {
+	color: #FF3139;
+	background-color: #10122A;
 }
 
 div.main {
@@ -92,4 +115,10 @@ input {
 	outline: none;
 	display: none;
 	width: 230px;
+}
+
+a.about {
+	position: absolute;
+	bottom: 0;
+	right: 0;
 }
