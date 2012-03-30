@@ -3,6 +3,7 @@ $site = 'https://potion.io/';
 $store = '/srv/data/';
 
 if ($_GET) {
+	$_GET['tag'] = strtolower($_GET['tag']);
 	if (preg_match('/^(\w|\s){5,64}$/', $_GET['tag'])
 	&& $_GET['tag'] != 'play'
 	&& $_GET['tag'] != 'store'

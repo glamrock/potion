@@ -3,6 +3,7 @@
 	<meta charset="UTF-8" />
 	<meta name="keywords" content="Potion, audio sharing, private audio storage, audio storage, potion.io" />
 	<meta name="description" content="Potion lets you safely store (and share!) your audio without logins or delays." />
+	<meta property="og:image" content="img/logo.png" />
 	<link rel="icon" type="image/gif" href="img/favicon.gif" />
 	<title>Potion</title>
 	<link rel="stylesheet" href="css/style.css" type="text/css" />
