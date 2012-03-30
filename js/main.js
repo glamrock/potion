@@ -127,9 +127,9 @@ function menu(i) {
 			else if ($('#task').val() === 'check') {
 				if (gettag()) {
 					b = setInterval("blink(1)", 420);
-					talk('neutral', 'computing', 1);
 					$.get('process.php?task=check&tag=' + $('#tag').val(), function(msg) {
 						if (msg == 'EXIST') {
+							clearInterval(b);
 							talk('sad', 'tag already exists', 0);
 						}
 						else if (msg == 'OK') {
@@ -155,8 +155,7 @@ function menu(i) {
 				}
 				else if (gettag()) {
 					b = setInterval("blink(1)", 420);
-					talk('neutral', 'computing', 1);
-					setTimeout("$('#input').submit()", 500);
+					$('#input').submit();
 				}
 			}
 			else if ($('#tag').val().toLowerCase() === 'store') {
@@ -217,13 +216,13 @@ $(document).ready(function() {
 				clearInterval(s);
 				clearInterval(b);
 				b = setInterval("blink(1)", 210);
-				$('#message').html('<div id="progress"><div id="bar"></div></div>');
+				$('#message').html('<div id="progress"><div id="bar"></div><div id="processing"></div></div>');
 			}
 		},
 		uploadProgress: function(event, position, total, percent) {
 			$('#bar').width(percent + '%');
 			if (percent == 100) {
-				$('#bar').fadeOut(10000);
+				$('#bar').fadeOut(8000);
 			}
 		},
 		success: function(data) {
@@ -247,9 +246,9 @@ $(document).ready(function() {
 						});
 					}
 					else {
-						setTimeout("talk('sad', 'tag does not exist', 1)", 800);
+						talk('sad', 'tag does not exist', 1);
 						$('#tag').val('');
-						setTimeout('menu()', 2000);
+						setTimeout('menu()', 2500);
 					}
 				});
 			}
