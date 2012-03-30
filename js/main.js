@@ -1,4 +1,4 @@
-var s, b, lock;
+var a, s, b, lock;
 var full = [];
 
 // FACES
@@ -28,6 +28,16 @@ var tsktalk = ["a12", "k6", "b13", "a13", "m1", "l1", "l13", "a2", "b1", "m13", 
 var winktalk = ["k9", "m2", "m12", "a1", "a12", "l1", "e11", "e10", "k8", "b13", "a2", "l13", "b1", "k5", "a13", "k6", "m1", "m13", "k7", "e3", "e4", "e5", "d10", "c10", "j10", "j5", "j6", "j7", "j8", "j9", "d5"];
 var hearttalk = ["e5", "g3", "e2", "i9", "f5", "j5", "h6", "f8", "b1", "e6", "g9", "d8", "c11", "g6", "d7", "m13", "d12", "c4", "c5", "l13", "e11", "h3", "g12", "d6", "d11", "b13", "j7", "k8", "f10", "j8", "i7", "c10", "h11", "f3", "i4", "c3", "f2", "l1", "j6", "e4", "i6", "g4", "a1", "i8", "e7", "h8", "i10", "h5", "f12", "h4", "f4", "d5", "i5", "h9", "c6", "m12", "g10", "h7", "m2", "m1", "l7", "k7", "f11", "h10", "f6", "d4", "g5", "g7", "f7", "a2", "g2", "e12", "c9", "a13", "d3", "e9", "k6", "d10", "e8", "d9", "g11", "c8", "j9", "a12", "e3", "d2", "g8", "a10", "a7", "a4"];
 // ---------------------------------------------------------------------------------------
+
+// $('td').click(function(){
+//	console.log($(this).attr('id'));
+//	if ($(this).css('background-color') !== 'rgba(0, 0, 0, 0)') {
+//		blank($(this).attr('id'));
+//	}
+//	else {
+//		fill($(this).attr('id'));
+//	}
+// });
 
 function fill(cell) {
 	$('#' + cell).css('background-color', '#10122A');
@@ -77,12 +87,14 @@ function talk(face, message, l) {
 		setTimeout('$("#message").html($("#message").html() + "' + message[p] + '")', tp);
 		tp += 40;
 	}
-	var ti = 0;
-	for (var i=0; i < (message.length/6); i++) {
-		ti += 120;
-		setTimeout('draw(' + face + 'talk, 0)', ti);
-		ti += 120;
-		setTimeout('draw(' + face + ', 0)', ti);
+	if (face) {
+		var ti = 0;
+		for (var i=0; i < (message.length/6); i++) {
+			ti += 120;
+			setTimeout('draw(' + face + 'talk, 0)', ti);
+			ti += 120;
+			setTimeout('draw(' + face + ', 0)', ti);
+		}
 	}
 	if (!l) {
 		setTimeout('lock = 0', tp);
@@ -102,28 +114,53 @@ function blink(n) {
 	}
 }
 
-$("#tag").keydown(function(event) {
-	if (event.keyCode === 13) {
-		if (lock) {
+function menu() {
+	talk("smile", "type \'store\' or \'listen\'", 0);
+	$("#tag").keydown(function(event) {
+		if (event.keyCode === 13) {
+			if (lock) {
+				return false;
+			}
+			else if ($('#task').val() === 'check') {
+				if (gettag()) {
+					b = setInterval("blink(1)", 420);
+					talk('neutral', 'computing');
+					$('#input').submit();
+				}
+			}
+			else if ($('#task').val() === 'listen') {
+				if ($('#expander').css('height') === '32px') {
+					clearInterval(a);
+					$('#tag').val('');
+					$('#task').val('');
+					$('#player').attr('src', 'stop');
+					$('#player').fadeOut(function() { 
+						$('#expander').animate({height: '2px',
+						'margin-top': '+=32px',
+						'background-color': 'rgba(151, 206, 236, 1)'}, 500);
+						setTimeout('menu()', 500);
+						return false;
+					});		
+				}
+				else if (gettag()) {
+					b = setInterval("blink(1)", 420);
+					talk('neutral', 'computing');
+					$('#input').submit();
+				}
+			}
+			else if ($('#tag').val().toLowerCase() === 'store') {
+				talk('smile', 'give it to me');
+				setTimeout("$('#file').trigger('click')", 720);
+			}
+			else if ($('#tag').val().toLowerCase() === 'listen') {
+				$('#task').val('listen');
+				talk('smile', 'enter tag');
+				$('#tag').val('');
+			}
 			return false;
 		}
-		if ($('#tag').val().toLowerCase() === 'store') {
-			talk('smile', 'ok');
-			setTimeout("$('#file').trigger('click')", 600);
-		}
-		if ($('#tag').val().toLowerCase() === 'listen') {
-			//talk('smile', 'enter tag');
-			$('#tag').val('');
-			$('#input').submit(function() {
-				if (gettag()) {
-					//setInterval("animate(['p1','p2','p3', 'p4'])", 680);
-				}
-				return false;
-			});
-		}
-		return false;
-	}
-});
+	});
+}
 
 function gettag() {
 	$('#tag').val($('#tag').val().toLowerCase());
@@ -131,59 +168,40 @@ function gettag() {
 		talk('neutral', 'tag too small');
 		return false;
 	}
-	else if ($('#tag').val().match(/^(\w|\s){5,64}$/) 
+	else if ($('#tag').val().match(/^\w{5,64}$/) 
 	&& $('#tag').val() !== 'listen'
 	&& $('#tag').val() !== 'store') {
 		return true;
 	}
 	else {
-		talk('neutral', 'letters, numbers and spaces only');
+		talk('neutral', 'letters and numbers only');
 		return false;
 	}
 }
 
 function handleFile(evt) {
 	var file = evt.target.files;
-	var reader = new FileReader();
 	if (file[0].type.match(/audio/)) {
-		if (file[0].size > (20*1048576)) {
-			talk('sad', 'file too large');
+		if (file[0].size > (8*1048576)) {
+			setTimeout("talk('sad', 'file too large')", 500);
 		}
 		else {
-			talk('smile', 'enter tag');
+			$('#task').val('check');
+			setTimeout("talk('smile', 'enter tag')", 500);
 			$('#tag').val('');
-			$("#tag").keydown(function(event) {
-				if (event.keyCode === 13) {
-					if (gettag()) {
-						b = setInterval("blink(1)", 420);
-						talk('neutral', 'checking');
-						$('#task').val('check');
-						$('#input').submit();
-					}
-				}
-			});
 		}
 	}
 	else {
-		talk('sad', 'audio files only');
+		setTimeout("talk('sad', 'audio files only')", 500);
 	}
 }
 document.getElementById('file').addEventListener('change', handleFile, false);
-
-$('td').click(function(){
-	console.log($(this).attr('id'));
-	if ($(this).css('background-color') !== 'rgba(0, 0, 0, 0)') {
-		blank($(this).attr('id'));
-	}
-	else {
-		fill($(this).attr('id'));
-	}
-});
 
 $(document).ready(function() {   
 	$('form').ajaxForm({
 		beforeSubmit: function() {
 			if ($('#task').val() === 'store') {
+				clearInterval(a);
 				clearInterval(s);
 				clearInterval(b);
 				b = setInterval("blink(1)", 210);
@@ -195,15 +213,39 @@ $(document).ready(function() {
 		},
 		success: function(data) {
 			clearInterval(b);
-			s = setInterval('blink(1)', 4500);
-			if (data === 'OK') {
+			if ($('#task').val() === 'listen') {
+				$.ajax({
+					type: 'GET',
+					url: 'process.php',
+					data: 'task=check&tag=' + $('#tag').val()
+				}).done(function(msg) {
+					if (msg == 'EXIST') {
+						clearInterval(s);
+						$('#player').attr('src', 'process.php?task=listen&tag=' + $('#tag').val());
+						$('#player').attr('autoplay', 'autoplay');
+						a = setInterval("animate(['p1','p2','p3', 'p4'])", 680);
+						talk(0, 'now playing!');
+						$('#expander').animate({height: '32px',
+						'margin-top': '-=32px',
+						'background-color': 'rgba(151, 206, 236, 0.1)'}, 500, function() { 
+							$('#player').fadeIn();
+						});
+					}
+					else {
+						talk('sad', 'tag does not exist');
+					}
+				});
+			}
+			else if (data === 'OK') {
 				if ($('#task').val() === 'check') {
-					talk('smile', 'ok');
 					$('#task').val('store');
 					setTimeout("$('#input').submit()", 300);
 				}
 				else if ($('#task').val() === 'store') {
-					setTimeout("talk('smile', 'done')", 300);
+					$('#tag').val('');
+					$('#file').val('');
+					setTimeout("talk('heart', 'done')", 300);
+					setTimeout('menu()', 1000);
 				}
 			}
 			else if (data === 'EXIST') {
@@ -219,6 +261,5 @@ $(document).ready(function() {
 $('#tag').select();
 animate(['p1','p2','p3', 'p4']);
 setTimeout("talk('smile', 'store audio, listen anywhere.', 1)", 680);
-setTimeout('blink(3)', 1500);
+setTimeout('menu()', 2700);
 s = setInterval('blink(1)', 4500);
-setTimeout('talk("smile", "type \'store\' or \'listen\'", 0)', 2700);
