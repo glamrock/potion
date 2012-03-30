@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <head>
 	<meta charset="UTF-8" />
-	<meta name="keywords" content="Potion" />
-	<meta name="description" content="Soundbytes" />
+	<meta name="keywords" content="Potion, audio sharing, private audio storage, audio storage, potion.io" />
+	<meta name="description" content="Potion lets you safely store (and share!) your audio without logins or delays." />
 	<link rel="icon" type="image/gif" href="img/favicon.gif" />
 	<title>Potion</title>
 	<link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -99,10 +99,10 @@
 					//echo "setTimeout(\"$('#task').val('play'); $('#tag').val('".$_GET['p']."'); $('#input').submit(); menu(1);\", 1000);";
 				}
 				else {
-					echo "animate(['p1','p2','p3', 'p4']);
-					setTimeout(\"talk('smile', 'store audio, play anywhere.', 1)\", 680);
-					setTimeout('menu()', 2500);
-					s = setInterval('blink(1)', 4500);";
+					echo "animate(['p1','p2','p3', 'p4']);\n";
+					echo "setTimeout(\"talk('smile', 'store audio, play anywhere.', 1)\", 680);\n";
+					echo "setTimeout('menu()', 2500);\n";
+					echo "s = setInterval('blink(1)', 4500);\n";
 				}
 			?>
 		});
