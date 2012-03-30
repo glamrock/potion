@@ -128,7 +128,15 @@ function menu(i) {
 				if (gettag()) {
 					b = setInterval("blink(1)", 420);
 					talk('neutral', 'computing', 1);
-					setTimeout("$('#input').submit()", 500);
+					$.get('process.php?task=check&tag=' + $('#tag').val(), function(msg) {
+						if (msg == 'EXIST') {
+							talk('sad', 'tag already exists', 0);
+						}
+						else if (msg == 'OK') {
+							$('#task').val('store');
+							setTimeout("$('#input').submit()", 300);
+						}
+					});
 				}
 			}
 			else if ($('#task').val() === 'play') {
@@ -141,8 +149,7 @@ function menu(i) {
 					setTimeout('menu()', 500);
 					$('#player').fadeOut('200', function() { 
 						$('#expander').animate({height: '2px',
-						'margin-top': '+=32px',
-						'background-color': 'rgba(151, 206, 236, 1)'}, 500);
+						'margin-top': '+=32px'}, 500);
 						return false;
 					});		
 				}
@@ -215,16 +222,15 @@ $(document).ready(function() {
 		},
 		uploadProgress: function(event, position, total, percent) {
 			$('#bar').width(percent + '%');
+			if (percent == 100) {
+				$('#bar').fadeOut(10000);
+			}
 		},
 		success: function(data) {
 			lock = 0;
 			clearInterval(b);
 			if ($('#task').val() === 'play') {
-				$.ajax({
-					type: 'GET',
-					url: 'process.php',
-					data: 'task=check&tag=' + $('#tag').val()
-				}).done(function(msg) {
+				$.get('process.php?task=check&tag=' + $('#tag').val(), function(msg) {
 					if (msg == 'EXIST') {
 						clearInterval(s);
 						$('#player').attr('src', 'process.php?task=play&tag=' + $('#tag').val());
@@ -233,14 +239,9 @@ $(document).ready(function() {
 						a = setInterval("animate(['p1','p2','p3', 'p4'])", 680);
 						talk(0, 'now playing!', 0);
 						$('#expander').animate({height: '32px',
-						'margin-top': '-=32px',
-						'background-color': 'rgba(151, 206, 236, 0.1)'}, 500, function() { 
+						'margin-top': '-=32px'}, 500, function() { 
 							$('#player').fadeIn();
-							$.ajax({
-								type: 'GET',
-								url: 'process.php',
-								data: 'task=id3&tag=' + $('#tag').val()
-							}).done(function(msg) {
+							$.get('process.php?task=id3k&tag=' + $('#tag').val(), function(msg) {
 								b = setTimeout('talk(0, "' + msg + '", 0)', 1900);
 							});
 						});
@@ -253,17 +254,11 @@ $(document).ready(function() {
 				});
 			}
 			else if (data === 'OK') {
-				if ($('#task').val() === 'check') {
-					$('#task').val('store');
-					setTimeout("$('#input').submit()", 300);
-				}
-				else if ($('#task').val() === 'store') {
-					$('#file').val('');
-					$('#tag').val('');
-					$('#tag').select();
-					setTimeout("talk('heart', 'done', 0)", 300);
-					setTimeout('menu()', 1800);
-				}
+				$('#file').val('');
+				$('#tag').val('');
+				$('#tag').select();
+				setTimeout("talk('heart', 'done', 0)", 300);
+				setTimeout('menu()', 1800);
 			}
 			else if (data === 'EXIST') {
 				talk('sad', 'tag already exists', 0);
