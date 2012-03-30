@@ -130,7 +130,7 @@ function menu(i) {
 					$.get('process.php?task=check&tag=' + $('#tag').val(), function(msg) {
 						if (msg == 'EXIST') {
 							clearInterval(b);
-							talk('sad', 'tag already exists', 0);
+							setTimeout("talk('sad', 'tag already exists', 0)", 200);
 						}
 						else if (msg == 'OK') {
 							$('#task').val('store');
