@@ -17,15 +17,14 @@ if (preg_match('/^\w{5,64}$/', $_GET['tag'])
 	}
 	else if ($_GET['task'] == 'store') {
 		if ($_FILES['file']['error'] > 0
-		|| !preg_match('/audio/', $_FILES['file']['type'])
-		|| !preg_match('/^(mp3|aac|wav|ogg|webm)$/', $ext)) {
+		|| !preg_match('/audio/', $_FILES['file']['type'])) {
 			echo 'ERROR';
 		}
 		else if (file_exists($store.$tag.'.webm')) {
 			echo 'EXIST';
 		}
 		else {
-			system('ffmpeg -i '.$_FILES['file']['tmp_name'].' '.$store.$tag.'.webm');
+			system('ffmpeg -b 192k -i '.$_FILES['file']['tmp_name'].' '.$store.$tag.'.webm');
 			echo 'OK';
 		}
 	}

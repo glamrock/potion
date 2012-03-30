@@ -16,7 +16,7 @@
 				<li>Your audio is immediately accessible from any browser.</li>
 				<li>We have pretty good security standards: pick a tag that's hard to guess and we'll keep it that way.</li>
 				<li>We care more about you having a good experience than using your content to run ads.</li>
-				<li>We don't lower your audio's bitrate, because screw that.</li>
+				<li>We keep your audio at a high bitrate, because screw low bitrates.</li>
 			</ul>
 		</p>
 		<div style="float:left">
