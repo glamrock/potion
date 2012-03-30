@@ -124,37 +124,38 @@ function menu() {
 			else if ($('#task').val() === 'check') {
 				if (gettag()) {
 					b = setInterval("blink(1)", 420);
-					talk('neutral', 'computing');
-					$('#input').submit();
+					talk('neutral', 'computing', 1);
+					setTimeout("$('#input').submit()", 500);
 				}
 			}
 			else if ($('#task').val() === 'listen') {
 				if ($('#expander').css('height') === '32px') {
 					clearInterval(a);
+					clearInterval(b);
 					$('#tag').val('');
 					$('#task').val('');
 					$('#player').attr('src', 'stop');
-					$('#player').fadeOut(function() { 
+					setTimeout('menu()', 500);
+					$('#player').fadeOut('200', function() { 
 						$('#expander').animate({height: '2px',
 						'margin-top': '+=32px',
 						'background-color': 'rgba(151, 206, 236, 1)'}, 500);
-						setTimeout('menu()', 500);
 						return false;
 					});		
 				}
 				else if (gettag()) {
 					b = setInterval("blink(1)", 420);
-					talk('neutral', 'computing');
-					$('#input').submit();
+					talk('neutral', 'computing', 1);
+					setTimeout("$('#input').submit()", 500);
 				}
 			}
 			else if ($('#tag').val().toLowerCase() === 'store') {
-				talk('smile', 'give it to me');
+				talk('smile', 'give it to me', 1);
 				setTimeout("$('#file').trigger('click')", 720);
 			}
 			else if ($('#tag').val().toLowerCase() === 'listen') {
 				$('#task').val('listen');
-				talk('smile', 'enter tag');
+				talk('smile', 'enter tag', 0);
 				$('#tag').val('');
 			}
 			return false;
@@ -165,7 +166,7 @@ function menu() {
 function gettag() {
 	$('#tag').val($('#tag').val().toLowerCase());
 	if ($('#tag').val().length < 5) {
-		talk('neutral', 'tag too small');
+		talk('neutral', 'tag too small', 0);
 		return false;
 	}
 	else if ($('#tag').val().match(/^\w{5,64}$/) 
@@ -174,7 +175,7 @@ function gettag() {
 		return true;
 	}
 	else {
-		talk('neutral', 'letters and numbers only');
+		talk('neutral', 'letters and numbers only', 0);
 		return false;
 	}
 }
@@ -182,17 +183,17 @@ function gettag() {
 function handleFile(evt) {
 	var file = evt.target.files;
 	if (file[0].type.match(/audio/)) {
-		if (file[0].size > (8*1048576)) {
-			setTimeout("talk('sad', 'file too large')", 500);
+		if (file[0].size > (20*1048576)) {
+			setTimeout("talk('sad', 'file too large', 0)", 500);
 		}
 		else {
 			$('#task').val('check');
-			setTimeout("talk('smile', 'enter tag')", 500);
+			setTimeout("talk('smile', 'enter tag', 0)", 500);
 			$('#tag').val('');
 		}
 	}
 	else {
-		setTimeout("talk('sad', 'audio files only')", 500);
+		setTimeout("talk('sad', 'audio files only', 0)", 500);
 	}
 }
 document.getElementById('file').addEventListener('change', handleFile, false);
@@ -200,6 +201,7 @@ document.getElementById('file').addEventListener('change', handleFile, false);
 $(document).ready(function() {   
 	$('form').ajaxForm({
 		beforeSubmit: function() {
+			lock = 1;
 			if ($('#task').val() === 'store') {
 				clearInterval(a);
 				clearInterval(s);
@@ -212,6 +214,7 @@ $(document).ready(function() {
 			$('#bar').width(percent + '%');
 		},
 		success: function(data) {
+			lock = 0;
 			clearInterval(b);
 			if ($('#task').val() === 'listen') {
 				$.ajax({
@@ -224,15 +227,22 @@ $(document).ready(function() {
 						$('#player').attr('src', 'process.php?task=listen&tag=' + $('#tag').val());
 						$('#player').attr('autoplay', 'autoplay');
 						a = setInterval("animate(['p1','p2','p3', 'p4'])", 680);
-						talk(0, 'now playing!');
+						talk(0, 'now playing!', 0);
 						$('#expander').animate({height: '32px',
 						'margin-top': '-=32px',
 						'background-color': 'rgba(151, 206, 236, 0.1)'}, 500, function() { 
 							$('#player').fadeIn();
+							$.ajax({
+								type: 'GET',
+								url: 'process.php',
+								data: 'task=id3&tag=' + $('#tag').val()
+							}).done(function(msg) {
+								b = setTimeout('talk(0, "' + msg + '", 0)', 1900);
+							});
 						});
 					}
 					else {
-						talk('sad', 'tag does not exist');
+						setTimeout("talk('sad', 'tag does not exist', 0)", 800);
 					}
 				});
 			}
@@ -244,15 +254,15 @@ $(document).ready(function() {
 				else if ($('#task').val() === 'store') {
 					$('#tag').val('');
 					$('#file').val('');
-					setTimeout("talk('heart', 'done')", 300);
-					setTimeout('menu()', 1000);
+					setTimeout("talk('heart', 'done', 0)", 300);
+					setTimeout('menu()', 1800);
 				}
 			}
 			else if (data === 'EXIST') {
-				talk('sad', 'tag already exists');
+				talk('sad', 'tag already exists', 0);
 			}
 			else if (data === 'ERROR') {
-				setTimeout("talk('sad', 'error')", 300);
+				setTimeout("talk('sad', 'error', 0)", 300);
 			}
 		}
 	});

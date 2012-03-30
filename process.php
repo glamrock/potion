@@ -1,16 +1,16 @@
 <?php
-$site = 'http://cyanode.nadim.cc/potion/';
+$site = 'http://cyanode.nadom.cc/potion/';
 $store = '/srv/data/';
 $ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
 
 if (preg_match('/^\w{5,64}$/', $_GET['tag'])
 && $_GET['tag'] != 'listen'
 && $_GET['tag'] != 'store'
-&& $_SERVER['HTTP_REFERER'] == $site) {
+&& $_SERVER['HTTP_REFERER'] != $site) {
 	if ($_GET['task'] == 'listen') {
 		if (file_exists($store.$_GET['tag'].'.webm')) {
-			header("Content-Type: audio/webm");
-			header("Content-Length: " . filesize($store.$_GET['tag'].'.webm'));
+			header('Content-Type: audio/webm');
+			header('Content-Length: '.filesize($store.$_GET['tag'].'.webm'));
 			readfile($store.$_GET['tag'].'.webm');
 		}
 	}
@@ -34,6 +34,14 @@ if (preg_match('/^\w{5,64}$/', $_GET['tag'])
 		}
 		else {
 			echo 'OK';
+		}
+	}
+	else if ($_GET['task'] == 'id3') {
+		if (file_exists($store.$_GET['tag'].'.webm')) {
+ 			require_once('id3/getid3.php');
+			$getID3 = new getID3;
+			$id3 = $getID3->analyze($store.$_GET['tag'].'.webm');
+			echo htmlentities($id3['matroska']['comments']['title'][0]);
 		}
 	}
 }
