@@ -117,7 +117,6 @@ function blink(n) {
 function menu(i) {
 	if (!i) {
 		talk("smile", "type \'store\' or \'play\'", 0);
-		$('#tag').val('');
 		$('#task').val('');
 	}	
 	$("#tag").keydown(function(event) {
@@ -155,7 +154,7 @@ function menu(i) {
 			}
 			else if ($('#tag').val().toLowerCase() === 'store') {
 				talk('smile', 'give it to me', 1);
-				setTimeout("$('#file').trigger('click')", 720);
+				setTimeout("$('#file').trigger('click')", 800);
 			}
 			else if ($('#tag').val().toLowerCase() === 'play') {
 				$('#task').val('play');
@@ -230,6 +229,7 @@ $(document).ready(function() {
 						clearInterval(s);
 						$('#player').attr('src', 'process.php?task=play&tag=' + $('#tag').val());
 						$('#player').attr('autoplay', 'autoplay');
+						animate(['p1','p2','p3', 'p4']);
 						a = setInterval("animate(['p1','p2','p3', 'p4'])", 680);
 						talk(0, 'now playing!', 0);
 						$('#expander').animate({height: '32px',
@@ -247,6 +247,7 @@ $(document).ready(function() {
 					}
 					else {
 						setTimeout("talk('sad', 'tag does not exist', 1)", 800);
+						$('#tag').val('');
 						setTimeout('menu()', 2000);
 					}
 				});
@@ -258,6 +259,7 @@ $(document).ready(function() {
 				}
 				else if ($('#task').val() === 'store') {
 					$('#file').val('');
+					$('#tag').val('');
 					$('#tag').select();
 					setTimeout("talk('heart', 'done', 0)", 300);
 					setTimeout('menu()', 1800);
