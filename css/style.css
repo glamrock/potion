@@ -92,8 +92,7 @@ input {
 }
 
 #progress {
-	margin-top: 10px;
-	width: 230px;
+	width: 250px;
 	height: 15px;
 	border: 1px solid #FF3139;
 	text-align: center;

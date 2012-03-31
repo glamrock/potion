@@ -88,7 +88,7 @@
 			<input type="file" name="file" id="file" />
 		</form>
 		<div id="expander">
-			<audio id="player" src="#" controls="controls"></audio>
+			<audio id="player" type="audio/webm" src="#" controls="controls"></audio>
 		</div>
 	</div>
 	<script type="text/javascript" src="js/main.js"></script>
@@ -102,7 +102,7 @@
 				else {
 					echo "animate(['p1','p2','p3', 'p4']);\n";
 					echo "setTimeout(\"talk('smile', 'store audio, play anywhere.', 1)\", 680);\n";
-					echo "setTimeout('menu()', 2500);\n";
+					echo "setTimeout('menu()', 2140);\n";
 					echo "s = setInterval('blink(1)', 4500);\n";
 				}
 			?>

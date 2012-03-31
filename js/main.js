@@ -141,17 +141,7 @@ function menu(i) {
 			}
 			else if ($('#task').val() === 'play') {
 				if ($('#expander').css('height') === '32px') {
-					clearInterval(a);
-					clearInterval(b);
-					$('#tag').val('');
-					$('#task').val('');
-					$('#player').attr('src', '#');
-					setTimeout('menu()', 500);
-					$('#player').fadeOut('200', function() { 
-						$('#expander').animate({height: '2px',
-						'margin-top': '+=32px'}, 500);
-						return false;
-					});		
+					endplay();	
 				}
 				else if (gettag()) {
 					b = setInterval("blink(1)", 420);
@@ -169,6 +159,19 @@ function menu(i) {
 			}
 			return false;
 		}
+	});
+}
+
+function endplay() {
+	clearInterval(a);
+	clearInterval(b);
+	$('#tag').val('');
+	$('#task').val('');
+	$('#player').attr('src', '#');
+	setTimeout('menu()', 500);
+	$('#player').fadeOut('200', function() { 
+		$('#expander').animate({height: '2px',
+		'margin-top': '+=32px'}, 500);
 	});
 }
 
@@ -234,6 +237,7 @@ $(document).ready(function() {
 						clearInterval(s);
 						$('#player').attr('src', 'process.php?task=play&tag=' + $('#tag').val());
 						$('#player').attr('autoplay', 'autoplay');
+						$('#player').attr('onended', 'endplay()');
 						animate(['p1','p2','p3', 'p4']);
 						a = setInterval("animate(['p1','p2','p3', 'p4'])", 680);
 						talk(0, 'now playing!', 0);
@@ -241,7 +245,7 @@ $(document).ready(function() {
 						'margin-top': '-=32px'}, 500, function() { 
 							$('#player').fadeIn();
 							$.get('process.php?task=id3&tag=' + $('#tag').val(), function(msg) {
-								b = setTimeout('talk(0, "' + msg + '", 0)', 1900);
+								b = setTimeout('talk(0, "' + msg + '", 0)', 1300);
 							});
 						});
 					}
@@ -257,7 +261,7 @@ $(document).ready(function() {
 				$('#tag').val('');
 				$('#tag').select();
 				setTimeout("talk('heart', 'done', 0)", 300);
-				setTimeout('menu()', 1800);
+				setTimeout('menu()', 3000);
 			}
 			else if (data === 'EXIST') {
 				setTimeout("talk('sad', 'tag already exists. try again', 0)", 200);
