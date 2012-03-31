@@ -42,7 +42,7 @@ if ($_GET) {
 			}
 		}
 		else if ($_GET['task'] == 'check') {
-			if (glob($store.$tag.'.*')) {
+			if (file_exists($store.$tag.'.webm')) {
 				echo 'EXIST';
 			}
 			else {
