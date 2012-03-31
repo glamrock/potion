@@ -237,8 +237,9 @@ $(document).ready(function() {
 			if ($('#task').val() === 'play') {
 				$.get('https://potion.io/process.php?task=check&tag=' + $('#tag').val(), function(msg) {
 					if (msg == 'EXIST') {
-						if (window.location != 'https://potion.io/?p=' + $('#tag').val()) {
-							window.location = 'https://potion.io/?p=' + $('#tag').val();
+						var url = 'https://potion.io/?p=' + $('#tag').val().replace(/\s/g, '%20');
+						if (window.location != url) {
+							window.location = url;
 						}
 						if (typeof s !== 'undefined') {
 							clearInterval(s);
