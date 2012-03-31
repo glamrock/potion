@@ -1,4 +1,4 @@
-var a, s, b, lock;
+var a, b, lock;
 var full = [];
 
 // FACES
@@ -130,7 +130,7 @@ function menu(i) {
 					$.get('process.php?task=check&tag=' + $('#tag').val(), function(msg) {
 						if (msg == 'EXIST') {
 							clearInterval(b);
-							setTimeout("talk('sad', 'tag already exists', 0)", 200);
+							setTimeout("talk('sad', 'tag already exists. try again', 0)", 200);
 						}
 						else if (msg == 'OK') {
 							$('#task').val('store');
@@ -145,7 +145,7 @@ function menu(i) {
 					clearInterval(b);
 					$('#tag').val('');
 					$('#task').val('');
-					$('#player').attr('src', 'stop');
+					$('#player').attr('src', '#');
 					setTimeout('menu()', 500);
 					$('#player').fadeOut('200', function() { 
 						$('#expander').animate({height: '2px',
@@ -260,7 +260,7 @@ $(document).ready(function() {
 				setTimeout('menu()', 1800);
 			}
 			else if (data === 'EXIST') {
-				talk('sad', 'tag already exists', 0);
+				setTimeout("talk('sad', 'tag already exists. try again', 0)", 200);
 			}
 			else if (data === 'ERROR') {
 				setTimeout("talk('sad', 'error', 0)", 300);

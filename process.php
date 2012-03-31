@@ -11,13 +11,13 @@ if ($_GET) {
 		$tag = hash('ripemd160', hash('sha512', $_GET['tag']));
 		$key = substr(hash('sha512', $_GET['tag']), 0, 32);
 		if ($_GET['task'] == 'play') {
+			header('Content-Type: audio/webm');
 			if (file_exists($store.$tag.'.webm')) {
 				$file = substr(mcrypt_decrypt(
 					MCRYPT_RIJNDAEL_256, $key, 
 					readfile($store.$tag.'.webm'), MCRYPT_MODE_CBC, 
 					mcrypt_create_iv(32, MCRYPT_DEV_URANDOM)
 				), 32);
-				header('Content-Type: audio/webm');
 				header('Content-Length: '.strlen($file));
 				echo $file;
 			}

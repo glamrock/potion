@@ -84,11 +84,11 @@
 		<div id="message"></div>
 		<form id="input" method="get" action="process.php" enctype="multipart/form-data">
 			<input type="text" name="task" id="task" class="invisible" />
-			<input type="text" name="tag" id="tag" autocomplete="off" />
+			<input type="text" name="tag" id="tag" autocomplete="off" maxlength="32" />
 			<input type="file" name="file" id="file" />
 		</form>
 		<div id="expander">
-			<audio id="player" src="stop" controls="controls"></audio>
+			<audio id="player" src="#" controls="controls"></audio>
 		</div>
 	</div>
 	<script type="text/javascript" src="js/main.js"></script>
