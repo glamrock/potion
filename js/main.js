@@ -119,7 +119,7 @@ function menu(i) {
 		talk("smile", "type \'store\' or \'play\'", 0);
 		$('#task').val('');
 	}	
-	$("#tag").keydown(function(event) {
+	$('#tag').keydown(function(event) {
 		if (event.keyCode === 13) {
 			if (lock) {
 				return false;
@@ -127,7 +127,7 @@ function menu(i) {
 			else if ($('#task').val() === 'check') {
 				if (gettag()) {
 					b = setInterval("blink(1)", 420);
-					$.get('process.php?task=check&tag=' + $('#tag').val(), function(msg) {
+					$.get('https://potion.io/process.php?task=check&tag=' + $('#tag').val(), function(msg) {
 						if (msg == 'EXIST') {
 							clearInterval(b);
 							setTimeout("talk('sad', 'tag already exists. try again', 0)", 200);
@@ -150,7 +150,9 @@ function menu(i) {
 			}
 			else if ($('#tag').val().toLowerCase() === 'store') {
 				talk('smile', 'give it to me', 1);
-				setTimeout("$('#file').trigger('click')", 725);
+				setTimeout('$("#message").html($("#message").html() + \'<div id="filebutton">select</div>\');', 500);
+				setTimeout("$('#filebutton').click(function() { $('#file').trigger('click'); })", 505);
+				setTimeout('$("#filebutton").click()', 510);
 			}
 			else if ($('#tag').val().toLowerCase() === 'play') {
 				$('#task').val('play');
@@ -202,6 +204,7 @@ function handleFile(evt) {
 			$('#task').val('check');
 			setTimeout("talk('smile', 'enter tag', 0)", 500);
 			$('#tag').val('');
+			$('#tag').select();
 		}
 	}
 	else {
@@ -232,19 +235,23 @@ $(document).ready(function() {
 			lock = 0;
 			clearInterval(b);
 			if ($('#task').val() === 'play') {
-				$.get('process.php?task=check&tag=' + $('#tag').val(), function(msg) {
+				$.get('https://potion.io/process.php?task=check&tag=' + $('#tag').val(), function(msg) {
 					if (msg == 'EXIST') {
-						clearInterval(s);
-						$('#player').attr('src', 'process.php?task=play&tag=' + $('#tag').val());
+						if (window.location != 'https://potion.io/?p=' + $('#tag').val()) {
+							window.location = 'https://potion.io/?p=' + $('#tag').val();
+						}
+						if (typeof s !== 'undefined') {
+							clearInterval(s);
+						}
+						$('#player').attr('src', 'https://potion.io/process.php?task=play&tag=' + $('#tag').val());
 						$('#player').attr('autoplay', 'autoplay');
 						$('#player').attr('onended', 'endplay()');
 						animate(['p1','p2','p3', 'p4']);
 						a = setInterval("animate(['p1','p2','p3', 'p4'])", 680);
 						talk(0, 'now playing!', 0);
-						$('#expander').animate({height: '32px',
-						'margin-top': '-=32px'}, 500, function() { 
+						$('#expander').animate({height: '32px', 'margin-top': '-=32px'}, 500, function() { 
 							$('#player').fadeIn();
-							$.get('process.php?task=id3&tag=' + $('#tag').val(), function(msg) {
+							$.get('https://potion.io/process.php?task=id3&tag=' + $('#tag').val(), function(msg) {
 								b = setTimeout('talk(0, "' + msg + '", 0)', 1300);
 							});
 						});

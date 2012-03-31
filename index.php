@@ -3,7 +3,7 @@
 	<meta charset="UTF-8" />
 	<meta name="keywords" content="Potion, audio sharing, private audio storage, audio storage, potion.io" />
 	<meta name="description" content="Potion lets you safely store (and share!) your audio without logins or delays." />
-	<meta property="og:image" content="img/logo.png" />
+	<meta property="og:image" content="https://potion.io/img/logo.png" />
 	<link rel="icon" type="image/gif" href="img/favicon.gif" />
 	<title>Potion</title>
 	<link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -82,7 +82,7 @@
 			</table>
 		</div>
 		<div id="message"></div>
-		<form id="input" method="get" action="process.php" enctype="multipart/form-data">
+		<form id="input" method="get" action="https://potion.io/process.php" enctype="multipart/form-data">
 			<input type="text" name="task" id="task" class="invisible" />
 			<input type="text" name="tag" id="tag" autocomplete="off" maxlength="32" />
 			<input type="file" name="file" id="file" />
@@ -97,13 +97,13 @@
 			$('#tag').select();
 			<?php
 				if (isset($_GET['p'])) {
-					//echo "setTimeout(\"$('#task').val('play'); $('#tag').val('".$_GET['p']."'); $('#input').submit(); menu(1);\", 1000);";
+					echo "draw(p1, 1); menu(1); $('#message').html('loading'); $('#task').val('play'); $('#tag').val('".$_GET['p']."'); $('#input').submit()";
 				}
 				else {
+					echo "$('#message').html('store audio, play anywhere');\n";
 					echo "animate(['p1','p2','p3', 'p4']);\n";
-					echo "setTimeout(\"talk('smile', 'store audio, play anywhere.', 1)\", 680);\n";
-					echo "setTimeout('menu()', 2140);\n";
-					echo "s = setInterval('blink(1)', 4500);\n";
+					echo "setTimeout('menu()', 1800);\n";
+					echo "s = setInterval('blink(1)', 3000);\n";
 				}
 			?>
 		});
