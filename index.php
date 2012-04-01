@@ -5,7 +5,14 @@
 	<meta name="description" content="Potion lets you safely store (and share!) your audio without logins or delays." />
 	<meta property="og:image" content="https://potion.io/img/logo.png" />
 	<link rel="icon" type="image/gif" href="img/favicon.gif" />
-	<title>Potion</title>
+	<title>
+	<?php
+	if (isset($_GET['p'])) {
+		$id3 = htmlspecialchars(file_get_contents('https://potion.io/process.php?task=id3&tag='.$_GET['p']));
+		echo $id3.' - ';
+	}
+	?>
+	Potion</title>
 	<link rel="stylesheet" href="css/style.css" type="text/css" />
 	<link rel="stylesheet" href="player/mediaelement.css" />
 	<script type="text/javascript" src="js/jquery.js"></script>
@@ -86,7 +93,8 @@
 		<div id="message"></div>
 		<form id="input" method="get" action="https://potion.io/process.php" enctype="multipart/form-data">
 			<input type="text" name="task" id="task" class="invisible" />
-			<input type="text" name="tag" id="tag" autocomplete="off" maxlength="32" />
+			<input type="password" name="key" id="key" autocomplete="off" maxlength="32" class="invisible" />
+			<input type="text" name="tag" id="tag" autocomplete="off" maxlength="32" class="visible" />
 			<input type="file" name="file" id="file" />
 		</form>
 		<div id="expander">
@@ -95,13 +103,15 @@
 			</audio>
 		</div>
 	</div>
+	<script type="text/javascript"><?php if (isset($_GET['p'])) { echo 'var id3 = "'.$id3.'";'; } ?></script>
 	<script type="text/javascript" src="js/main.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$('#tag').select();
 			<?php
 				if (isset($_GET['p'])) {
-					echo "draw(p1, 1); menu(1); $('#message').html('loading'); $('#task').val('play'); $('#tag').val('".$_GET['p']."'); $('#input').submit()";
+					echo "draw(p1, 1); menu(1); $('#message').html('loading');\n";
+					echo "$('#task').val('play'); $('#tag').val('".$_GET['p']."'); $('#input').submit();\n";
 				}
 				else {
 					echo "$('#message').html('store audio, play anywhere');\n";

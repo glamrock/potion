@@ -1,4 +1,4 @@
-var a, b, lock, size;
+var a, b, d, lock, size;
 var full = [];
 
 // FACES
@@ -17,6 +17,7 @@ var p1 = ['l2', 'd2', 'm5', 'b9', 'f9', 'm10', 'b13', 'f13', 'f3', 'i6', 'a1', '
 var p2 = ['c2', 'f9', 'a1', 'd12', 'f4', 'k11', 'm2', 'b3', 'i1', 'd11', 'a5', 'j7', 'm1', 'd3', 'e9', 'l11', 'f2', 'a4', 'm7', 'd4', 'f3', 'k2', 'l10', 'j3', 'c12', 'g13', 'm8', 'g3', 'f13', 'h11', 'a9', 'm12', 'f11', 'f12', 'b12', 'c5', 'i6', 'd1', 'h3', 'j1', 'k7', 'j8', 'c9', 'i13', 'e2', 'f1', 'a12', 'e11', 'e12', 'g4', 'h13', 'f5', 'b1', 'd13', 'c13', 'b10', 'i2', 'c3', 'f10', 'h12', 'h2', 'j13', 'c1', 'm3', 'c11', 'e5', 'i12', 'b9', 'g2', 'd5', 'k3', 'g1', 'g12', 'b2', 'e10', 'a3', 'k13', 'm11', 'a10', 'l4', 'i3', 'd10', 'g10', 'l1', 'l13', 'c10', 'm5', 'j12', 'j11', 'e1', 'b11', 'm10', 'l2', 'j2', 'a11', 'b4', 'k1', 'h1', 'm13', 'a13', 'd9', 'a2', 'i11', 'l3', 'l12', 'm6', 'b13', 'b5', 'm4', 'e4', 'm9', 'e13', 'd2', 'k12', 'e3', 'g11', 'c4', 'a7', 'a8', 'b7', 'b6'];
 var p3 = ['e3', 'c4', 'c10', 'm12', 'b1', 'm2', 'm1', 'a13', 'a1', 'd10', 'm13', 'l13', 'b13', 'd4', 'c1', 'd1', 'e1', 'c13', 'd13', 'e13', 'f13', 'g13', 'f12', 'd12', 'c12', 'e12', 'f1', 'g1', 'f2', 'd2', 'a2', 'b2', 'c2', 'e2', 'a12', 'b12', 'a11', 'b11', 'c11', 'd11', 'b10', 'a10', 'b3', 'a3', 'c3', 'd3', 'b4', 'a4', 'e11', 'a5', 'b5', 'c5', 'a9', 'b9', 'c9', 'h1', 'i1', 'j1', 'k1', 'l1', 'h13', 'i13', 'j13', 'k13', 'g12', 'h12', 'i12', 'j12', 'k12', 'l12', 'g2', 'h2', 'i2', 'j2', 'l2', 'k2', 'm3', 'm11', 'l3', 'm10', 'l11', 'f3', 'f11', 'e10', 'e4', 'd5', 'd9', 'g3', 'h3', 'i3', 'j3', 'k3', 'g11', 'h11', 'i11', 'j11', 'k11', 'f10', 'e9', 'f4', 'e5', 'g4', 'f5', 'f9', 'g10', 'a7', 'a6', 'b6', 'l4', 'l10', 'm4', 'm9', 'm5', 'm6', 'm7', 'm8', 'b8', 'j7', 'k7', 'i6', 'k6', 'k8'];
 var p4 = ['b1', 'a10', 'l3', 'e12', 'j2', 'm3', 'j13', 'c13', 'h13', 'd4', 'h1', 'm11', 'a3', 'g1', 'i2', 'j1', 'm9', 'd12', 'l1', 'b11', 'j11', 'h2', 'a6', 'h3', 'e9', 'g4', 'c9', 'c12', 'm6', 'a2', 'b4', 'j12', 'i13', 'm5', 'm7', 'f2', 'b9', 'k3', 'f9', 'k13', 'f13', 'd10', 'd3', 'g11', 'd2', 'g3', 'm1', 'e5', 'c2', 'l10', 'c3', 'e11', 'c11', 'a4', 'f12', 'd1', 'g10', 'm4', 'i3', 'c1', 'i12', 'c5', 'k2', 'm2', 'k12', 'a7', 'f5', 'l13', 'd13', 'f3', 'i11', 'f11', 'a5', 'g2', 'm12', 'f10', 'e10', 'l11', 'j3', 'g13', 'e4', 'd5', 'a9', 'a13', 'f1', 'l4', 'e1', 'd11', 'b2', 'a12', 'l2', 'k11', 'a1', 'm8', 'b13', 'c4', 'e13', 'b5', 'k7', 'm10', 'd9', 'f4', 'j7', 'b8', 'b12', 'h12', 'c10', 'h11', 'e3', 'b3', 'e2', 'm13', 'l12', 'a11', 'k1', 'g12', 'i1', 'b10', 'b7', 'i8', 'j6', 'j8'];
+var deleted = ["a4", "b5", "c6", "d7", "c8", "b9", "a10", "a5", "a6", "a7", "a8", "a9", "b8", "b7", "b6", "c7", "m4", "l5", "k6", "j7", "k8", "l9", "m10", "k7", "l7", "l8", "l6", "m5", "m6", "m7", "m8", "m9", "d13", "e12", "f11", "g10", "h11", "i12", "j13", "i13", "h13", "g13", "f13", "e13", "f12", "g12", "h12", "g11", "d1", "e2", "f3", "g4", "h3", "i2", "h1", "f1", "e1", "g1", "g2", "g3", "f2", "h2", "j1", "i1", "a1", "a13", "m13", "m1"];
 // ---------------------------------------------------------------------------------------
 
 // TALKERS
@@ -27,17 +28,18 @@ var sadtalk = ['m1', 'e4', 'j8', 'c4', 'm13', 'm2', 'j6', 'c10', 'a2', 'l1', 'm1
 var tsktalk = ['a12', 'k6', 'b13', 'a13', 'm1', 'l1', 'l13', 'a2', 'b1', 'm13', 'm12', 'k7', 'k8', 'm2', 'e4', 'e12', 'e11', 'e5', 'k9', 'k10'];
 var winktalk = ['k9', 'm2', 'm12', 'a1', 'a12', 'l1', 'e11', 'e10', 'k8', 'b13', 'a2', 'l13', 'b1', 'k5', 'a13', 'k6', 'm1', 'm13', 'k7', 'e3', 'e4', 'e5', 'd10', 'c10', 'j10', 'j5', 'j6', 'j7', 'j8', 'j9', 'd5'];
 var hearttalk = ['e5', 'g3', 'e2', 'i9', 'f5', 'j5', 'h6', 'f8', 'b1', 'e6', 'g9', 'd8', 'c11', 'g6', 'd7', 'm13', 'd12', 'c4', 'c5', 'l13', 'e11', 'h3', 'g12', 'd6', 'd11', 'b13', 'j7', 'k8', 'f10', 'j8', 'i7', 'c10', 'h11', 'f3', 'i4', 'c3', 'f2', 'l1', 'j6', 'e4', 'i6', 'g4', 'a1', 'i8', 'e7', 'h8', 'i10', 'h5', 'f12', 'h4', 'f4', 'd5', 'i5', 'h9', 'c6', 'm12', 'g10', 'h7', 'm2', 'm1', 'l7', 'k7', 'f11', 'h10', 'f6', 'd4', 'g5', 'g7', 'f7', 'a2', 'g2', 'e12', 'c9', 'a13', 'd3', 'e9', 'k6', 'd10', 'e8', 'd9', 'g11', 'c8', 'j9', 'a12', 'e3', 'd2', 'g8', 'a10', 'a7', 'a4'];
+var deletedtalk = deleted;
 // ---------------------------------------------------------------------------------------
 
-// $('td').click(function(){
-//	console.log($(this).attr('id'));
-//	if ($(this).css('background-color') !== 'rgba(0, 0, 0, 0)') {
-//		blank($(this).attr('id'));
-//	}
-//	else {
-//		fill($(this).attr('id'));
-//	}
-// });
+/*$('td').click(function(){
+	console.log($(this).attr('id'));
+	if ($(this).css('background-color') !== 'rgba(0, 0, 0, 0)') {
+		blank($(this).attr('id'));
+	}
+	else {
+		fill($(this).attr('id'));
+	}
+});*/
 
 function fill(cell) {
 	$('#' + cell).css('background-color', '#10122A');
@@ -115,26 +117,51 @@ function blink(n) {
 }
 
 function menu(i) {
+	$('#file').val('');
+	$('#tag').val('');
+	$('#key').val('');
+	$('#tag').select();
 	if (!i) {
-		talk("smile", "type \'store\' or \'play\'", 0);
+		talk("smile", "type \'store\', \'play\' or \'delete\'", 0);
 		$('#task').val('');
 	}	
-	$('#tag').keydown(function(event) {
+	$('input').keyup(function(event) {
 		if (event.keyCode === 13) {
 			if (lock) {
 				return false;
 			}
+			else if ($('#task').val() === 'enterkey') {
+				if ($('#key').val().match(/^\w+$/)) {
+					$('#key').attr('class', 'invisible');
+					$('#tag').attr('class', 'visible');
+					$('#task').val('store');
+					if (d) {
+						$('#task').val('delete');
+					}
+					setTimeout("$('#input').submit()", 100);
+				}
+				else {
+					setTimeout("talk('sad', 'letters & numbers only', 0)", 100);
+				}
+			}
 			else if ($('#task').val() === 'check') {
 				if (gettag()) {
-					b = setInterval("blink(1)", 420);
 					$.get('https://potion.io/process.php?task=check&tag=' + $('#tag').val(), function(msg) {
-						if (msg == 'EXIST') {
-							clearInterval(b);
-							setTimeout("talk('sad', 'tag already exists. try again', 0)", 200);
+						if (msg == 'OK' && d) {
+							setTimeout("talk('sad', 'tag does not exist.', 0)", 150);
+							setTimeout('menu()', 1700);
 						}
-						else if (msg == 'OK') {
-							$('#task').val('store');
-							setTimeout("$('#input').submit()", 300);
+						else if (msg == 'EXIST' && !d) {
+							setTimeout("talk('sad', 'tag already exists.', 0)", 150);
+							setTimeout('menu()', 1700);
+						}
+						else {
+							setTimeout("talk('smile', 'enter delete key', 0)", 150);
+							$('#tag').attr('class', 'invisible');
+							$('#key').attr('class', 'visible');
+							$('#key').val('');
+							$('#key').select();
+							$('#task').val('enterkey');
 						}
 					});
 				}
@@ -153,10 +180,16 @@ function menu(i) {
 				$('#select').click(function() { 
 					$('#file').trigger('click');
 				});
-				setTimeout("$('#select').click();", 150);
+				setTimeout("$('#file').trigger('click')", 300);
 			}
 			else if ($('#tag').val().toLowerCase() === 'play') {
 				$('#task').val('play');
+				talk('smile', 'enter tag', 0);
+				$('#tag').val('');
+			}
+			else if ($('#tag').val().toLowerCase() === 'delete') {
+				d = 1;
+				$('#task').val('check');
 				talk('smile', 'enter tag', 0);
 				$('#tag').val('');
 			}
@@ -184,7 +217,7 @@ function gettag() {
 		return true;
 	}
 	else {
-		talk('neutral', 'letters, numbers and spaces only', 0);
+		talk('neutral', 'letters, numbers & spaces only', 0);
 		return false;
 	}
 }
@@ -229,11 +262,11 @@ $(document).ready(function() {
 			}
 		},
 		success: function(data) {
-			lock = 0;
+			lock = d = 0;
 			clearInterval(b);
 			if ($('#task').val() === 'play') {
 				$.get('https://potion.io/process.php?task=check&tag=' + $('#tag').val(), function(msg) {
-					if (msg == 'EXIST') {
+					if (msg === 'EXIST') {
 						var url = 'https://potion.io/' + $('#tag').val().replace(/\s/g, '%20');
 						if (window.location != url) {
 							window.location = url;
@@ -249,30 +282,31 @@ $(document).ready(function() {
 						talk(0, 'now playing!', 0);
 						$('#expander').animate({height: '22px', 'margin-top': '-=22px'}, 1000, function() { 
 							$('#player').fadeIn();
-							$.get('https://potion.io/process.php?task=id3&tag=' + $('#tag').val(), function(msg) {
-								b = setTimeout('talk(0, "' + msg + '", 0)', 1300);
-							});
+							b = setTimeout('talk(0, "' + id3 + '", 0)', 1300);
 						});
 					}
 					else {
 						talk('sad', 'tag does not exist', 1);
-						$('#tag').val('');
 						setTimeout('menu()', 2500);
 					}
 				});
 			}
 			else if (data === 'OK') {
-				$('#file').val('');
-				$('#tag').val('');
-				$('#tag').select();
-				setTimeout("talk('heart', 'done', 0)", 300);
+				if ($('#task').val() === 'delete') {
+					setTimeout("talk('deleted', 'done', 0)", 300);
+				}
+				else {
+					setTimeout("talk('heart', 'done', 0)", 300);
+				}
 				setTimeout('menu()', 3000);
 			}
 			else if (data === 'EXIST') {
-				setTimeout("talk('sad', 'tag already exists. try again', 0)", 200);
+				setTimeout("talk('sad', 'tag already exists.', 0)", 200);
+				setTimeout('menu()', 1700);
 			}
 			else if (data === 'ERROR') {
-				setTimeout("talk('sad', 'error', 0)", 300);
+				talk('sad', 'error', 0);
+				setTimeout('menu()', 1500);
 			}
 		}
 	});
