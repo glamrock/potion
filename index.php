@@ -110,7 +110,8 @@
 			$('#tag').select();
 			<?php
 				if (isset($_GET['p'])) {
-					echo "draw(p1, 1); menu(1); $('#message').html('loading');\n";
+					echo "draw(p1, 1); menu(1); $('#message').html('<div id=\"progress\"><div id=\"bar\"></div></div>');\n";
+					echo "$('#bar').animate({width: '100%'}, 2000, function() { $('#progress').fadeOut(900); });\n";
 					echo "$('#task').val('play'); $('#tag').val('".$_GET['p']."'); $('#input').submit();\n";
 				}
 				else {

@@ -252,7 +252,7 @@ $(document).ready(function() {
 				clearInterval(a);
 				clearInterval(b);
 				b = setInterval("blink(1)", 210);
-				$('#message').html('<div id="progress"><div id="bar"></div><div id="processing"></div></div>');
+				$('#message').html('<div id="progress"><div id="bar"></div></div>');
 			}
 		},
 		uploadProgress: function(event, position, total, percent) {
