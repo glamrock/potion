@@ -166,7 +166,6 @@ function menu(i) {
 }
 
 function endplay() {
-	
 	$('.mejs-container').fadeOut();
 	$('#expander').animate({height: '2px','margin-top': '+=22px'}, 1000, function() { 
 		setTimeout("window.location = 'https://potion.io'", 1000);
