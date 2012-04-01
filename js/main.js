@@ -140,7 +140,7 @@ function menu(i) {
 				}
 			}
 			else if ($('#task').val() === 'play') {
-				if ($('#expander').css('height') === '32px') {
+				if ($('#expander').css('height') === '22px') {
 					endplay();	
 				}
 				else if (gettag()) {
@@ -174,7 +174,7 @@ function endplay() {
 	setTimeout('menu()', 500);
 	$('#player').fadeOut('200', function() { 
 		$('#expander').animate({height: '2px',
-		'margin-top': '+=32px'}, 500);
+		'margin-top': '+=22px'}, 500);
 	});
 }
 
@@ -246,10 +246,12 @@ $(document).ready(function() {
 						$('#player').attr('src', 'https://potion.io/process.php?task=play&tag=' + $('#tag').val());
 						$('#player').attr('autoplay', 'autoplay');
 						$('#player').attr('onended', 'endplay()');
+						$('#player').mediaelementplayer();
+						$('#playervars').val('controls=true&file=' + 'https://potion.io/process.php?task=play&tag=' + $('#tag').val());
 						animate(['p1','p2','p3', 'p4']);
 						a = setInterval("animate(['p1','p2','p3', 'p4'])", 680);
 						talk(0, 'now playing!', 0);
-						$('#expander').animate({height: '32px', 'margin-top': '-=32px'}, 500, function() { 
+						$('#expander').animate({height: '22px', 'margin-top': '-=22px'}, 500, function() { 
 							$('#player').fadeIn();
 							$.get('https://potion.io/process.php?task=id3&tag=' + $('#tag').val(), function(msg) {
 								b = setTimeout('talk(0, "' + msg + '", 0)', 1300);

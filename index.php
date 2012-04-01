@@ -7,8 +7,10 @@
 	<link rel="icon" type="image/gif" href="img/favicon.gif" />
 	<title>Potion</title>
 	<link rel="stylesheet" href="css/style.css" type="text/css" />
+	<link rel="stylesheet" href="player/mediaelement.css" />
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="js/form.js"></script>
+	<script type="text/javascript" src="player/mediaelement.js"></script>
 </head>
 <body>
 	<div class="main">
@@ -88,7 +90,9 @@
 			<input type="file" name="file" id="file" />
 		</form>
 		<div id="expander">
-			<audio id="player" type="audio/webm" src="#" controls="controls"></audio>
+			<audio id="player" type="audio/webm" src="#" controls="controls">
+				
+			</audio>
 		</div>
 	</div>
 	<script type="text/javascript" src="js/main.js"></script>
