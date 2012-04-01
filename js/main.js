@@ -168,7 +168,9 @@ function menu(i) {
 function endplay() {
 	
 	$('.mejs-container').fadeOut();
-	$('#expander').animate({height: '2px','margin-top': '+=22px'}, 1000, function() { setTimeout("window.location = 'https://potion.io'", 1000); });
+	$('#expander').animate({height: '2px','margin-top': '+=22px'}, 1000, function() { 
+		setTimeout("window.location = 'https://potion.io'", 1000);
+	});
 }
 
 function gettag() {
@@ -235,6 +237,7 @@ $(document).ready(function() {
 						var url = 'https://potion.io/' + $('#tag').val().replace(/\s/g, '%20');
 						if (window.location != url) {
 							window.location = url;
+							return false;
 						}
 						$('#player').attr('src', 'https://potion.io/process.php?task=play&tag=' + $('#tag').val());
 						$('#player').attr('autoplay', 'autoplay');
