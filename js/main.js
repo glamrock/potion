@@ -1,4 +1,4 @@
-var a, b, lock;
+var a, b, lock, size;
 var full = [];
 
 // FACES
@@ -197,6 +197,7 @@ function handleFile(evt) {
 			setTimeout("talk('sad', 'file too large', 0)", 500);
 		}
 		else {
+			size = file[0].size / 1048576;
 			$('#task').val('check');
 			setTimeout("talk('smile', 'enter tag', 0)", 500);
 			$('#tag').val('');
@@ -225,7 +226,7 @@ $(document).ready(function() {
 		uploadProgress: function(event, position, total, percent) {
 			$('#bar').width(percent + '%');
 			if (percent == 100) {
-				$('#bar').fadeOut(9999);
+				$('#bar').fadeOut(Math.floor(size * 1500));
 			}
 		},
 		success: function(data) {
