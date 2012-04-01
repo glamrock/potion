@@ -3,22 +3,16 @@ $store = '/srv/data/';
 
 if ($_GET) {
 	$_GET['tag'] = strtolower($_GET['tag']);
-	if (preg_match('/^https\:\/\/potion.io\//', $_SERVER['HTTP_REFERER'])
-	&& preg_match('/^(\w|\s){5,64}$/', $_GET['tag'])
+	if (/*preg_match('/^https\:\/\/potion.io\//', $_SERVER['HTTP_REFERER'])
+	&&*/ preg_match('/^(\w|\s){5,64}$/', $_GET['tag'])
 	&& $_GET['tag'] != 'play'
 	&& $_GET['tag'] != 'store') {
 		$tag = hash('ripemd160', hash('sha512', $_GET['tag']));
-		$key = substr(hash('sha512', $_GET['tag']), 0, 32);
+		$tagkey = substr(hash('sha512', $_GET['tag']), 0, 32);
 		if ($_GET['task'] == 'play') {
-			header('Content-Type: audio/webm');
 			if (file_exists($store.$tag.'.webm')) {
-				$file = substr(mcrypt_decrypt(
-					MCRYPT_RIJNDAEL_256, $key, 
-					readfile($store.$tag.'.webm'), MCRYPT_MODE_CBC, 
-					mcrypt_create_iv(32, MCRYPT_DEV_URANDOM)
-				), 32);
-				header('Content-Length: '.strlen($file));
-				echo $file;
+				header('Content-Type: audio/webm');
+				echo substr(strstr(mcrypt_decrypt(MCRYPT_ARCFOUR, $tagkey, base64_decode(file_get_contents($store.$tag.'.webm')), 'stream'), '!!ENDTAG!!'), 10);
 			}
 		}
 		else if ($_GET['task'] == 'store') {
@@ -30,13 +24,13 @@ if ($_GET) {
 				echo 'EXIST';
 			}
 			else {
+				require_once('id3/getid3.php');
 				system('ffmpeg -b 192k -i "'.$_FILES['file']['tmp_name'].'" '.$store.$tag.'.webm');
-				$file = fopen($store.$tag.'.webm', 'r+');
-				fwrite($file, mcrypt_encrypt(
-					MCRYPT_RIJNDAEL_256, $key, 
-					(mcrypt_create_iv(32, MCRYPT_DEV_URANDOM).fread($file, filesize($store.$tag.'.webm')))
-					, MCRYPT_MODE_CBC, mcrypt_create_iv(32, MCRYPT_DEV_URANDOM)
-				));
+				$getID3 = new getID3;
+				$id3 = $getID3->analyze($store.$tag.'.webm');
+				$encrypted = base64_encode(mcrypt_encrypt(MCRYPT_ARCFOUR, $tagkey, $id3['matroska']['comments']['title'][0].'!!ENDTAG!!'.file_get_contents($store.$tag.'.webm'), 'stream'));
+				$file = fopen($store.$tag.'.webm', 'w');
+				fwrite($file, $encrypted);
 				fclose($file);
 				echo 'OK';
 			}
@@ -51,10 +45,8 @@ if ($_GET) {
 		}
 		else if ($_GET['task'] == 'id3') {
 			if (file_exists($store.$tag.'.webm')) {
-	 			require_once('id3/getid3.php');
-				$getID3 = new getID3;
-				$id3 = $getID3->analyze($store.$tag.'.webm');
-				echo $id3['matroska']['comments']['title'][0];
+				preg_match('/^.+!!ENDTAG!!/', mcrypt_decrypt(MCRYPT_ARCFOUR, $tagkey, substr(base64_decode(file_get_contents($store.$tag.'.webm')), 0, 512), 'stream'), $id3);
+				echo substr($id3[0], 0, -10);
 			}
 		}
 	}

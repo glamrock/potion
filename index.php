@@ -108,6 +108,6 @@
 			?>
 		});
 	</script>
-	<a href="about" class="about">about</a>
+	<a href="a" class="about">about</a>
 </body>
 </html>

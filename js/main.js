@@ -149,10 +149,11 @@ function menu(i) {
 				}
 			}
 			else if ($('#tag').val().toLowerCase() === 'store') {
-				talk('smile', 'give it to me', 1);
-				setTimeout('$("#message").html($("#message").html() + \'<div id="filebutton">select</div>\');', 500);
-				setTimeout("$('#filebutton').click(function() { $('#file').trigger('click'); })", 505);
-				setTimeout('$("#filebutton").click()', 510);
+				$("#message").html('<div id="select">select audio</div>');
+				$('#select').click(function() { 
+					$('#file').trigger('click');
+				});
+				setTimeout("$('#select').click();", 150);
 			}
 			else if ($('#tag').val().toLowerCase() === 'play') {
 				$('#task').val('play');
@@ -211,7 +212,9 @@ function handleFile(evt) {
 		setTimeout("talk('sad', 'audio files only', 0)", 500);
 	}
 }
-document.getElementById('file').addEventListener('change', handleFile, false);
+$('#file').bind('change', function(evt) {
+	handleFile(evt);
+});
 
 $(document).ready(function() {
 	$('form').ajaxForm({
@@ -219,7 +222,6 @@ $(document).ready(function() {
 			lock = 1;
 			if ($('#task').val() === 'store') {
 				clearInterval(a);
-				clearInterval(s);
 				clearInterval(b);
 				b = setInterval("blink(1)", 210);
 				$('#message').html('<div id="progress"><div id="bar"></div><div id="processing"></div></div>');
@@ -228,7 +230,7 @@ $(document).ready(function() {
 		uploadProgress: function(event, position, total, percent) {
 			$('#bar').width(percent + '%');
 			if (percent == 100) {
-				$('#bar').fadeOut(8000);
+				$('#bar').fadeOut(9999);
 			}
 		},
 		success: function(data) {
@@ -237,12 +239,9 @@ $(document).ready(function() {
 			if ($('#task').val() === 'play') {
 				$.get('https://potion.io/process.php?task=check&tag=' + $('#tag').val(), function(msg) {
 					if (msg == 'EXIST') {
-						var url = 'https://potion.io/?p=' + $('#tag').val().replace(/\s/g, '%20');
+						var url = 'https://potion.io/' + $('#tag').val().replace(/\s/g, '%20');
 						if (window.location != url) {
 							window.location = url;
-						}
-						if (typeof s !== 'undefined') {
-							clearInterval(s);
 						}
 						$('#player').attr('src', 'https://potion.io/process.php?task=play&tag=' + $('#tag').val());
 						$('#player').attr('autoplay', 'autoplay');
