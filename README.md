@@ -1,6 +1,8 @@
 ## Potion
 
+### Notes:
+Assumes the following httpd rewrite rule exists: 
+`"^/([\w|\s]{5,32})$" => "/?p=$1"`
+
 ### To do:
-* __[x]__ Make mp3 files only accessible via Potion interface
-* __[x]__ Check if file exists before uploading
-* __[x]__ Create player interface
+* __[x]__ Create custom player interface
