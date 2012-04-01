@@ -3,8 +3,8 @@ $store = '/srv/data/';
 
 if ($_GET) {
 	$_GET['tag'] = strtolower($_GET['tag']);
-	if (/*preg_match('/^https\:\/\/potion.io\//', $_SERVER['HTTP_REFERER'])
-	&&*/ preg_match('/^(\w|\s){5,64}$/', $_GET['tag'])
+	if (preg_match('/^https\:\/\/potion.io\//', $_SERVER['HTTP_REFERER'])
+	&& preg_match('/^(\w|\s){5,64}$/', $_GET['tag'])
 	&& $_GET['tag'] != 'play'
 	&& $_GET['tag'] != 'store') {
 		$tag = hash('ripemd160', hash('sha512', $_GET['tag']));
