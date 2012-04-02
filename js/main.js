@@ -18,7 +18,7 @@ var p1 = ['l2', 'd2', 'm5', 'b9', 'f9', 'm10', 'b13', 'f13', 'f3', 'i6', 'a1', '
 var p2 = ['c2', 'f9', 'a1', 'd12', 'f4', 'k11', 'm2', 'b3', 'i1', 'd11', 'a5', 'j7', 'm1', 'd3', 'e9', 'l11', 'f2', 'a4', 'm7', 'd4', 'f3', 'k2', 'l10', 'j3', 'c12', 'g13', 'm8', 'g3', 'f13', 'h11', 'a9', 'm12', 'f11', 'f12', 'b12', 'c5', 'i6', 'd1', 'h3', 'j1', 'k7', 'j8', 'c9', 'i13', 'e2', 'f1', 'a12', 'e11', 'e12', 'g4', 'h13', 'f5', 'b1', 'd13', 'c13', 'b10', 'i2', 'c3', 'f10', 'h12', 'h2', 'j13', 'c1', 'm3', 'c11', 'e5', 'i12', 'b9', 'g2', 'd5', 'k3', 'g1', 'g12', 'b2', 'e10', 'a3', 'k13', 'm11', 'a10', 'l4', 'i3', 'd10', 'g10', 'l1', 'l13', 'c10', 'm5', 'j12', 'j11', 'e1', 'b11', 'm10', 'l2', 'j2', 'a11', 'b4', 'k1', 'h1', 'm13', 'a13', 'd9', 'a2', 'i11', 'l3', 'l12', 'm6', 'b13', 'b5', 'm4', 'e4', 'm9', 'e13', 'd2', 'k12', 'e3', 'g11', 'c4', 'a7', 'a8', 'b7', 'b6'];
 var p3 = ['e3', 'c4', 'c10', 'm12', 'b1', 'm2', 'm1', 'a13', 'a1', 'd10', 'm13', 'l13', 'b13', 'd4', 'c1', 'd1', 'e1', 'c13', 'd13', 'e13', 'f13', 'g13', 'f12', 'd12', 'c12', 'e12', 'f1', 'g1', 'f2', 'd2', 'a2', 'b2', 'c2', 'e2', 'a12', 'b12', 'a11', 'b11', 'c11', 'd11', 'b10', 'a10', 'b3', 'a3', 'c3', 'd3', 'b4', 'a4', 'e11', 'a5', 'b5', 'c5', 'a9', 'b9', 'c9', 'h1', 'i1', 'j1', 'k1', 'l1', 'h13', 'i13', 'j13', 'k13', 'g12', 'h12', 'i12', 'j12', 'k12', 'l12', 'g2', 'h2', 'i2', 'j2', 'l2', 'k2', 'm3', 'm11', 'l3', 'm10', 'l11', 'f3', 'f11', 'e10', 'e4', 'd5', 'd9', 'g3', 'h3', 'i3', 'j3', 'k3', 'g11', 'h11', 'i11', 'j11', 'k11', 'f10', 'e9', 'f4', 'e5', 'g4', 'f5', 'f9', 'g10', 'a7', 'a6', 'b6', 'l4', 'l10', 'm4', 'm9', 'm5', 'm6', 'm7', 'm8', 'b8', 'j7', 'k7', 'i6', 'k6', 'k8'];
 var p4 = ['b1', 'a10', 'l3', 'e12', 'j2', 'm3', 'j13', 'c13', 'h13', 'd4', 'h1', 'm11', 'a3', 'g1', 'i2', 'j1', 'm9', 'd12', 'l1', 'b11', 'j11', 'h2', 'a6', 'h3', 'e9', 'g4', 'c9', 'c12', 'm6', 'a2', 'b4', 'j12', 'i13', 'm5', 'm7', 'f2', 'b9', 'k3', 'f9', 'k13', 'f13', 'd10', 'd3', 'g11', 'd2', 'g3', 'm1', 'e5', 'c2', 'l10', 'c3', 'e11', 'c11', 'a4', 'f12', 'd1', 'g10', 'm4', 'i3', 'c1', 'i12', 'c5', 'k2', 'm2', 'k12', 'a7', 'f5', 'l13', 'd13', 'f3', 'i11', 'f11', 'a5', 'g2', 'm12', 'f10', 'e10', 'l11', 'j3', 'g13', 'e4', 'd5', 'a9', 'a13', 'f1', 'l4', 'e1', 'd11', 'b2', 'a12', 'l2', 'k11', 'a1', 'm8', 'b13', 'c4', 'e13', 'b5', 'k7', 'm10', 'd9', 'f4', 'j7', 'b8', 'b12', 'h12', 'c10', 'h11', 'e3', 'b3', 'e2', 'm13', 'l12', 'a11', 'k1', 'g12', 'i1', 'b10', 'b7', 'i8', 'j6', 'j8'];
-var deleted = ["a4", "b5", "c6", "d7", "c8", "b9", "a10", "a5", "a6", "a7", "a8", "a9", "b8", "b7", "b6", "c7", "m4", "l5", "k6", "j7", "k8", "l9", "m10", "k7", "l7", "l8", "l6", "m5", "m6", "m7", "m8", "m9", "d13", "e12", "f11", "g10", "h11", "i12", "j13", "i13", "h13", "g13", "f13", "e13", "f12", "g12", "h12", "g11", "d1", "e2", "f3", "g4", "h3", "i2", "h1", "f1", "e1", "g1", "g2", "g3", "f2", "h2", "j1", "i1", "a1", "a13", "m13", "m1"];
+var deleted = ['a4', 'b5', 'c6', 'd7', 'c8', 'b9', 'a10', 'a5', 'a6', 'a7', 'a8', 'a9', 'b8', 'b7', 'b6', 'c7', 'm4', 'l5', 'k6', 'j7', 'k8', 'l9', 'm10', 'k7', 'l7', 'l8', 'l6', 'm5', 'm6', 'm7', 'm8', 'm9', 'd13', 'e12', 'f11', 'g10', 'h11', 'i12', 'j13', 'i13', 'h13', 'g13', 'f13', 'e13', 'f12', 'g12', 'h12', 'g11', 'd1', 'e2', 'f3', 'g4', 'h3', 'i2', 'h1', 'f1', 'e1', 'g1', 'g2', 'g3', 'f2', 'h2', 'j1', 'i1', 'a1', 'a13', 'm13', 'm1'];
 // ---------------------------------------------------------------------------------------
 
 // TALKERS
@@ -125,10 +125,9 @@ function blink(n) {
 function menu(i) {
 	dropped = 0;
 	$('#file').val('');
-	$('#tag').val('');
 	$('#key').val('');
 	$('#task').val('');
-	$('#tag').select();
+	$('#tag').focus();
 	if (!i) {
 		talk("smile", "type store, play or delete (or just drag and drop!)", 0);
 		$('#task').val('');
@@ -157,10 +156,12 @@ function menu(i) {
 					$.post('https://potion.io/process.php?task=check&tag=' + $('#tag').val(), function(msg) {
 						if (msg == 'OK' && d) {
 							setTimeout("talk('sad', 'tag does not exist.', 0)", 150);
+							$('#tag').val('');
 							setTimeout('menu()', 1700);
 						}
 						else if (msg == 'EXIST' && !d) {
 							setTimeout("talk('sad', 'tag already exists.', 0)", 150);
+							$('#tag').val('');
 							setTimeout('menu()', 1700);
 						}
 						else {
@@ -168,7 +169,7 @@ function menu(i) {
 							$('#tag').attr('class', 'invisible');
 							$('#key').attr('class', 'visible');
 							$('#key').val('');
-							$('#key').select();
+							$('#key').focus();
 							$('#task').val('enterkey');
 						}
 					});
@@ -247,7 +248,6 @@ function fileselect(evt) {
 						return function(evt) {
 							$('#file').val('');
 							dropped = evt.target.result;
-							console.log(dropped.length);
 						};
 					})(file[0]);
 					reader.readAsDataURL(file[0]);
@@ -257,7 +257,7 @@ function fileselect(evt) {
 				setTimeout("talk('smile', 'enter tag (a name for your upload)', 0)", 300);
 				$('#tag').val('');
 				$('#key').val('');
-				$('#tag').select();
+				$('#tag').focus();
 			}
 		}
 		else {
@@ -337,6 +337,7 @@ function loadform() {
 					}
 					else {
 						talk('sad', 'tag does not exist', 1);
+						$('#tag').val('');
 						setTimeout('menu()', 2500);
 					}
 				});
@@ -352,10 +353,12 @@ function loadform() {
 			}
 			else if (data === 'EXIST') {
 				setTimeout("talk('sad', 'tag already exists.', 0)", 200);
+				$('#tag').val('');
 				setTimeout('menu()', 1700);
 			}
 			else if (data === 'ERROR') {
 				talk('sad', 'error', 0);
+				$('#tag').val('');
 				setTimeout('menu()', 2500);
 			}
 			else {
