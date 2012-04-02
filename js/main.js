@@ -1,4 +1,5 @@
 var a, b, d, lock, size;
+var ext = 0;
 var dropped = 0;
 var full = [];
 
@@ -252,6 +253,7 @@ function fileselect(evt) {
 					})(file[0]);
 					reader.readAsDataURL(file[0]);
 				}
+				ext = file[0].name.match(/\.\w+$/);
 				size = file[0].size / 1048576;
 				$('#task').val('check');
 				setTimeout("talk('smile', 'enter tag (a name for your upload)', 0)", 300);
@@ -304,7 +306,7 @@ function loadform() {
 				$('#message').html('<div class="progress" id="progress"><div id="bar"></div></div>');
 			}
 		},
-		data: { drop: dropped },
+		data: { drop: dropped, ext: ext },
 		uploadProgress: function(event, position, total, percent) {
 			$('#bar').width(percent + '%');
 			if (percent == 100) {

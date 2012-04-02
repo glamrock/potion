@@ -47,7 +47,9 @@ if (isset($_GET)) {
 			}
 			if (preg_match('/^\w+$/', $_GET['key'])) {
 				require_once('id3/getid3.php');
-				system('ffmpeg -b 192k -i "'.$_FILES['file']['tmp_name'].'" '.$store.$tag.'.webm');
+				$tmp = $_FILES['file']['tmp_name'].$_GET['ext'];
+				rename($_FILES['file']['tmp_name'], $tmp);
+				system('ffmpeg -b:a 192k -i '.$tmp.' '.$store.$tag.'.webm');
 				$getID3 = new getID3;
 				$id3 = $getID3->analyze($store.$tag.'.webm');
 				$options = hash('sha512', $_GET['key']).$id3['matroska']['comments']['title'][0].$endid3;
@@ -56,7 +58,7 @@ if (isset($_GET)) {
 				fwrite($file, $encrypted);
 				fclose($file);
 				if ($tmp) {
-					unlink($tmp);
+				unlink($tmp);
 				}
 				echo 'OK';
 				exit;
