@@ -19,6 +19,7 @@ if ($_GET) {
 		if ($_GET['task'] == 'play') {
 			if (file_exists($store.$tag.'.webm')) {
 				header('Content-Type: audio/webm');
+				chmod($store.$tag.'.webm', 0644);
 				echo substr(strstr(mcrypt_decrypt(MCRYPT_ARCFOUR, $tagkey, base64_decode(file_get_contents($store.$tag.'.webm')), 'stream'), $endid3), strlen($endid3));
 			}
 		}
