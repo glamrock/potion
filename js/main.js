@@ -120,6 +120,7 @@ function menu(i) {
 	$('#file').val('');
 	$('#tag').val('');
 	$('#key').val('');
+	$('#task').val('');
 	$('#tag').select();
 	if (!i) {
 		talk("smile", "type \'store\', \'play\' or \'delete\'", 0);
@@ -231,7 +232,7 @@ function handleFile(evt) {
 		else {
 			size = file[0].size / 1048576;
 			$('#task').val('check');
-			setTimeout("talk('smile', 'enter tag', 0)", 500);
+			setTimeout("talk('smile', 'enter tag (a name for your upload)', 0)", 500);
 			$('#tag').val('');
 			$('#tag').select();
 		}
@@ -252,13 +253,13 @@ $(document).ready(function() {
 				clearInterval(a);
 				clearInterval(b);
 				b = setInterval("blink(1)", 210);
-				$('#message').html('<div id="progress"><div id="bar"></div></div>');
+				$('#message').html('<div class="progress" id="progress"><div id="bar"></div></div>');
 			}
 		},
 		uploadProgress: function(event, position, total, percent) {
 			$('#bar').width(percent + '%');
 			if (percent == 100) {
-				$('#bar').fadeOut(Math.floor(size * 1500));
+				$('.progress').fadeOut(Math.ceil(size * 1750));
 			}
 		},
 		success: function(data) {

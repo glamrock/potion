@@ -14,10 +14,10 @@
 	?>
 	Potion</title>
 	<link rel="stylesheet" href="css/style.css" type="text/css" />
-	<link rel="stylesheet" href="player/mediaelement.css" />
+	<link rel="stylesheet" href="css/mediaelement.css" />
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="js/form.js"></script>
-	<script type="text/javascript" src="player/mediaelement.js"></script>
+	<script type="text/javascript" src="js/mediaelement.js"></script>
 </head>
 <body>
 	<div class="main">
