@@ -1,4 +1,5 @@
 var a, b, d, lock, size;
+var dropped = 0;
 var full = [];
 
 // FACES
@@ -87,7 +88,12 @@ function talk(face, message, l) {
 	var tp = 0;
 	for (var p=0; p != message.length; p++) {
 		setTimeout('$("#message").html($("#message").html() + "' + message[p] + '")', tp);
-		tp += 40;
+		if ($('#task').val() === '') {
+			setTimeout('$("#message").html($("#message").html().replace("store", "<span class=\'blue\'>store</span>"))', tp);
+			setTimeout('$("#message").html($("#message").html().replace("play", "<span class=\'blue\'>play</span>"))', tp);
+			setTimeout('$("#message").html($("#message").html().replace("delete", "<span class=\'blue\'>delete</span>"))', tp);
+		}
+		tp += 33;
 	}
 	if (face) {
 		var ti = 0;
@@ -117,17 +123,18 @@ function blink(n) {
 }
 
 function menu(i) {
+	dropped = 0;
 	$('#file').val('');
 	$('#tag').val('');
 	$('#key').val('');
 	$('#task').val('');
 	$('#tag').select();
 	if (!i) {
-		talk("smile", "type \'store\', \'play\' or \'delete\'", 0);
+		talk("smile", "type store, play or delete (or just drag and drop!)", 0);
 		$('#task').val('');
 	}	
-	$('input').keyup(function(event) {
-		if (event.keyCode === 13) {
+	$('input').keyup(function(evt) {
+		if (evt.keyCode === 13) {
 			if (lock) {
 				return false;
 			}
@@ -139,7 +146,7 @@ function menu(i) {
 					if (d) {
 						$('#task').val('delete');
 					}
-					setTimeout("$('#input').submit()", 100);
+					setTimeout("loadform();$('#input').submit()", 100);
 				}
 				else {
 					setTimeout("talk('sad', 'letters & numbers only', 0)", 100);
@@ -147,7 +154,7 @@ function menu(i) {
 			}
 			else if ($('#task').val() === 'check') {
 				if (gettag()) {
-					$.get('https://potion.io/process.php?task=check&tag=' + $('#tag').val(), function(msg) {
+					$.post('https://potion.io/process.php?task=check&tag=' + $('#tag').val(), function(msg) {
 						if (msg == 'OK' && d) {
 							setTimeout("talk('sad', 'tag does not exist.', 0)", 150);
 							setTimeout('menu()', 1700);
@@ -173,6 +180,7 @@ function menu(i) {
 				}
 				else if (gettag()) {
 					b = setInterval("blink(1)", 420);
+					loadform();
 					$('#input').submit();
 				}
 			}
@@ -223,29 +231,69 @@ function gettag() {
 	}
 }
 
-function handleFile(evt) {
-	var file = evt.target.files;
-	if (file[0].type.match(/audio/)) {
-		if (file[0].size > (20*1048576)) {
-			setTimeout("talk('sad', 'file too large', 0)", 500);
+function fileselect(evt) {
+	evt.stopPropagation();
+	evt.preventDefault();
+	file = evt.target.files || evt.dataTransfer.files;
+	if (file.length === 1) {
+		if (file[0].type.match(/audio/)) {
+			if (file[0].size > (20*1048576)) {
+				setTimeout("talk('sad', 'file too large', 0)", 500);
+			}
+			else {
+				if (dropped && !lock) {
+					var reader = new FileReader();
+					reader.onload = (function(file) {
+						return function(evt) {
+							$('#file').val('');
+							dropped = evt.target.result;
+							console.log(dropped.length);
+						};
+					})(file[0]);
+					reader.readAsDataURL(file[0]);
+				}
+				size = file[0].size / 1048576;
+				$('#task').val('check');
+				setTimeout("talk('smile', 'enter tag (a name for your upload)', 0)", 300);
+				$('#tag').val('');
+				$('#key').val('');
+				$('#tag').select();
+			}
 		}
 		else {
-			size = file[0].size / 1048576;
-			$('#task').val('check');
-			setTimeout("talk('smile', 'enter tag (a name for your upload)', 0)", 500);
-			$('#tag').val('');
-			$('#tag').select();
+			setTimeout("talk('sad', 'audio files only', 0)", 500);
 		}
 	}
 	else {
-		setTimeout("talk('sad', 'audio files only', 0)", 500);
+		setTimeout("talk('sad', 'one file at a time', 0)", 500);
 	}
 }
+XMLHttpRequest.prototype.sendAsBinary = function(datastr) {
+    function byteValue(x) {
+        return x.charCodeAt(0) & 0xff;
+    }
+    var ords = Array.prototype.map.call(datastr, byteValue);
+    var ui8a = new Uint8Array(ords);
+    this.send(ui8a.buffer);
+}
 $('#file').bind('change', function(evt) {
-	handleFile(evt);
+	fileselect(evt);
 });
+$('body').bind('dragover', function(evt) {
+	evt.stopPropagation();
+	evt.preventDefault();
+});
+$('body').bind('dragleave', function(evt) {
+	evt.stopPropagation();
+	evt.preventDefault();
+});
+$('body').bind('drop', function(evt) {
+	dropped = 1;
+});
+document.body.addEventListener('drop', fileselect, false);
 
-$(document).ready(function() {
+
+function loadform() {
 	$('form').ajaxForm({
 		beforeSubmit: function() {
 			lock = 1;
@@ -256,6 +304,7 @@ $(document).ready(function() {
 				$('#message').html('<div class="progress" id="progress"><div id="bar"></div></div>');
 			}
 		},
+		data: { drop: dropped },
 		uploadProgress: function(event, position, total, percent) {
 			$('#bar').width(percent + '%');
 			if (percent == 100) {
@@ -266,7 +315,7 @@ $(document).ready(function() {
 			lock = d = 0;
 			clearInterval(b);
 			if ($('#task').val() === 'play') {
-				$.get('https://potion.io/process.php?task=check&tag=' + $('#tag').val(), function(msg) {
+				$.post('https://potion.io/process.php?task=check&tag=' + $('#tag').val(), function(msg) {
 					if (msg === 'EXIST') {
 						var url = 'https://potion.io/' + $('#tag').val().replace(/\s/g, '%20');
 						if (window.location != url) {
@@ -299,7 +348,7 @@ $(document).ready(function() {
 				else {
 					setTimeout("talk('heart', 'done', 0)", 300);
 				}
-				setTimeout('menu()', 3000);
+				setTimeout('window.location = "https://potion.io"', 3000);
 			}
 			else if (data === 'EXIST') {
 				setTimeout("talk('sad', 'tag already exists.', 0)", 200);
@@ -307,8 +356,11 @@ $(document).ready(function() {
 			}
 			else if (data === 'ERROR') {
 				talk('sad', 'error', 0);
-				setTimeout('menu()', 1500);
+				setTimeout('menu()', 2500);
+			}
+			else {
+				console.log(data);
 			}
 		}
 	});
-});
+}

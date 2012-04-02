@@ -8,7 +8,11 @@ function sourcecheck() {
 	else { return 0; }
 }
 
-if ($_GET) {
+if ($_POST) {
+	$_GET = $_POST;
+}
+
+if (isset($_GET)) {
 	if (sourcecheck()
 	&& preg_match('/^(\w|\s){5,64}$/', $_GET['tag'])
 	&& $_GET['tag'] != 'play'
@@ -24,14 +28,24 @@ if ($_GET) {
 			}
 		}
 		else if ($_GET['task'] == 'store') {
-			if ($_FILES['file']['error'] > 0
+			if (preg_match('/audio/', substr($_POST['drop'], 0, 128))) {
+				$file = file_get_contents($_POST['drop']);
+				$tmp = tempnam('/tmp', 'tmp');
+				$handle = fopen($tmp, "w");
+				fwrite($handle, $file);
+				fclose($handle);
+				$_FILES['file']['tmp_name'] = $tmp;
+			}
+			else if ($_FILES['file']['error'] > 0
 			|| !preg_match('/audio/', $_FILES['file']['type'])) {
 				echo 'ERROR';
+				exit;
 			}
-			else if (file_exists($store.$tag.'.webm')) {
+			if (file_exists($store.$tag.'.webm')) {
 				echo 'EXIST';
+				exit;
 			}
-			else if (preg_match('/^\w+$/', $_GET['key'])) {
+			if (preg_match('/^\w+$/', $_GET['key'])) {
 				require_once('id3/getid3.php');
 				system('ffmpeg -b 192k -i "'.$_FILES['file']['tmp_name'].'" '.$store.$tag.'.webm');
 				$getID3 = new getID3;
@@ -41,7 +55,11 @@ if ($_GET) {
 				$file = fopen($store.$tag.'.webm', 'w');
 				fwrite($file, $encrypted);
 				fclose($file);
+				if ($tmp) {
+					unlink($tmp);
+				}
 				echo 'OK';
+				exit;
 			}
 		}
 		else if ($_GET['task'] == 'check') {

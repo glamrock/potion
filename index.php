@@ -91,7 +91,7 @@
 			</table>
 		</div>
 		<div id="message"></div>
-		<form id="input" method="get" action="https://potion.io/process.php" enctype="multipart/form-data">
+		<form id="input" method="post" action="https://potion.io/process.php" enctype="multipart/form-data">
 			<input type="text" name="task" id="task" class="invisible" />
 			<input type="password" name="key" id="key" autocomplete="off" maxlength="32" class="invisible" />
 			<input type="text" name="tag" id="tag" autocomplete="off" maxlength="32" class="visible" />
@@ -99,7 +99,6 @@
 		</form>
 		<div id="expander">
 			<audio id="player" type="audio/webm" src="#" controls="controls">
-				
 			</audio>
 		</div>
 	</div>
@@ -111,11 +110,11 @@
 			<?php
 				if (isset($_GET['p'])) {
 					echo "draw(p1, 1); menu(1); $('#message').html('<div id=\"progress\"><div id=\"bar\"></div></div>');\n";
-					echo "$('#bar').animate({width: '100%'}, 2000, function() { $('#progress').fadeOut(900); });\n";
-					echo "$('#task').val('play'); $('#tag').val('".$_GET['p']."'); $('#input').submit();\n";
+					echo "$('#bar').animate({width: '100%'}, 3000, function() { $('#progress').fadeOut(900); });\n";
+					echo "$('#task').val('play'); $('#tag').val('".$_GET['p']."'); loadform(); $('#input').submit();\n";
 				}
 				else {
-					echo "$('#message').html('store audio, play anywhere');\n";
+					echo "$('#message').html('store your audio, play it anywhere');\n";
 					echo "animate(['p1','p2','p3', 'p4']);\n";
 					echo "setTimeout('menu()', 1600);\n";
 					echo "s = setInterval('blink(1)', 3000);\n";
