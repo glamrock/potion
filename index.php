@@ -114,9 +114,9 @@
 					echo "$('#task').val('play'); $('#tag').val('".$_GET['p']."'); loadform(); $('#input').submit();\n";
 				}
 				else {
-					echo "$('#message').html('store your audio, play it anywhere');\n";
+					//echo "$('#message').html('store your audio, play it anywhere');\n";
 					echo "animate(['p1','p2','p3', 'p4']);\n";
-					echo "setTimeout('menu()', 1600);\n";
+					echo "setTimeout('menu()', 680);\n";
 					echo "s = setInterval('blink(1)', 3000);\n";
 				}
 			?>

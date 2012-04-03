@@ -130,7 +130,7 @@ function menu(i) {
 	$('#task').val('');
 	$('#tag').focus();
 	if (!i) {
-		talk("smile", "type store, play or delete (or just drag and drop!)", 0);
+		talk("smile", "you can: store new audio, play or delete existing audio (or just drag and drop!)", 0);
 		$('#task').val('');
 	}	
 	$('input').keyup(function(evt) {
