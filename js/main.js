@@ -218,11 +218,11 @@ function endplay() {
 
 function gettag() {
 	$('#tag').val($('#tag').val().toLowerCase());
-	if ($('#tag').val().length < 5) {
+	if ($('#tag').val().length < 4) {
 		talk('neutral', 'tag too small', 0);
 		return false;
 	}
-	else if ($('#tag').val().match(/^(\w|\s){5,64}$/) 
+	else if ($('#tag').val().match(/^(\w|\s){4,64}$/) 
 	&& $('#tag').val() !== 'play'
 	&& $('#tag').val() !== 'store') {
 		return true;
@@ -251,7 +251,7 @@ function fileselect(evt) {
 							dropped = evt.target.result;
 						};
 					})(file[0]);
-					reader.readAsBinaryString(file[0]);
+					reader.readAsDataURL(file[0]);
 				}
 				ext = file[0].name.match(/\.\w+$/);
 				size = file[0].size / 1048576;

@@ -14,7 +14,7 @@ if ($_POST) {
 
 if (isset($_GET)) {
 	if (sourcecheck()
-	&& preg_match('/^(\w|\s){5,64}$/', $_GET['tag'])
+	&& preg_match('/^(\w|\s){4,64}$/', $_GET['tag'])
 	&& $_GET['tag'] != 'play'
 	&& $_GET['tag'] != 'store') {
 		$_GET['tag'] = strtolower($_GET['tag']);

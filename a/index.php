@@ -17,7 +17,7 @@
 				<li>With tags, it's just as easy to share your audio with others or to keep it completely private.</li>
 				<li>We take privacy seriously: your audio is encrypted.</li>
 				<li>We keep your audio at a high bitrate, because screw low bitrates.</li>
-				<li>Your audio is kept if it gets accessed at least once a month.</li>
+				<li>Your audio is kept as long as it gets accessed at least once a month.</li>
 			</ul>
 
 		<div style="float:left">
