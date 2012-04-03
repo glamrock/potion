@@ -324,13 +324,13 @@ function loadform() {
 						window.location = url;
 					}
 					else {
-						$('#player').attr('src', 'https://potion.io/process.php?task=play&tag=' + $('#tag').val());
-						$('#player').attr('autoplay', 'autoplay');
-						$('#player').attr('onended', 'endplay()');
-						$('#player').mediaelementplayer();
+						$('#task').val('play');
 						animate(['p1','p2','p3', 'p4']);
 						a = setInterval("animate(['p1','p2','p3', 'p4'])", 680);
-						talk(0, 'now playing!', 0);
+						$('#player').attr('src', 'https://potion.io/process.php?task=play&tag=' + $('#tag').val());
+						$('#player').attr('onended', 'endplay()');
+						var player = new MediaElementPlayer('#player');
+						setTimeout('player.play();', 2500);
 						$('#expander').animate({height: '22px', 'margin-top': '-=22px'}, 1000, function() { 
 							$('#player').fadeIn();
 							b = setTimeout('talk(0, "' + id3 + '", 0)', 1300);
