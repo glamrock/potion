@@ -182,6 +182,7 @@ function menu(i) {
 				}
 				else if (gettag()) {
 					b = setInterval("blink(1)", 420);
+					$('#task').val('check');
 					loadform();
 					$('#input').submit();
 				}
@@ -316,18 +317,17 @@ function loadform() {
 		success: function(data) {
 			lock = d = 0;
 			clearInterval(b);
-			if ($('#task').val() === 'play') {
-				$.get('https://potion.io/process.php?task=check&tag=' + $('#tag').val(), function(msg) {
-					if (msg === 'EXIST') {
-						var url = 'https://potion.io/' + $('#tag').val().replace(/\s/g, '%20');
-						if (window.location != url) {
-							window.location = url;
-						}
+			if ($('#task').val() === 'check') {
+				if (data === 'EXIST') {
+					var url = 'https://potion.io/' + $('#tag').val().replace(/\s/g, '%20');
+					if (window.location != url) {
+						window.location = url;
+					}
+					else {
 						$('#player').attr('src', 'https://potion.io/process.php?task=play&tag=' + $('#tag').val());
 						$('#player').attr('autoplay', 'autoplay');
 						$('#player').attr('onended', 'endplay()');
 						$('#player').mediaelementplayer();
-						$('#playervars').val('controls=true&file=' + 'https://potion.io/process.php?task=play&tag=' + $('#tag').val());
 						animate(['p1','p2','p3', 'p4']);
 						a = setInterval("animate(['p1','p2','p3', 'p4'])", 680);
 						talk(0, 'now playing!', 0);
@@ -336,12 +336,12 @@ function loadform() {
 							b = setTimeout('talk(0, "' + id3 + '", 0)', 1300);
 						});
 					}
-					else {
-						talk('sad', 'tag does not exist', 1);
-						$('#tag').val('');
-						setTimeout('menu()', 2500);
-					}
-				});
+				}
+				else {
+					talk('sad', 'tag does not exist', 1);
+					$('#tag').val('');
+					setTimeout('menu()', 2500);
+				}
 			}
 			else if (data === 'OK') {
 				if ($('#task').val() === 'delete') {

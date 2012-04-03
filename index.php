@@ -111,7 +111,7 @@
 				if (isset($_GET['p'])) {
 					echo "draw(p1, 1); menu(1); $('#message').html('<div id=\"progress\"><div id=\"bar\"></div></div>');\n";
 					echo "$('#bar').animate({width: '100%'}, 4500, function() { $('#progress').fadeOut(900); });\n";
-					echo "$('#task').val('play'); $('#tag').val('".$_GET['p']."'); loadform(); $('#input').submit();\n";
+					echo "$('#task').val('check'); $('#tag').val('".$_GET['p']."'); loadform(); $('#input').submit();\n";
 				}
 				else {
 					//echo "$('#message').html('store your audio, play it anywhere');\n";
