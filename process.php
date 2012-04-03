@@ -49,7 +49,7 @@ if (isset($_GET)) {
 				require_once('id3/getid3.php');
 				$tmp = $_FILES['file']['tmp_name'].$_GET['ext'];
 				rename($_FILES['file']['tmp_name'], $tmp);
-				system('ffmpeg -b:a 192k -i '.$tmp.' '.$store.$tag.'.webm');
+				system('ffmpeg -b:a 160k -i '.$tmp.' '.$store.$tag.'.webm');
 				$getID3 = new getID3;
 				$id3 = $getID3->analyze($store.$tag.'.webm');
 				$options = hash('sha512', $_GET['key']).$id3['matroska']['comments']['title'][0].$endid3;
