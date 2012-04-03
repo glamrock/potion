@@ -251,7 +251,7 @@ function fileselect(evt) {
 							dropped = evt.target.result;
 						};
 					})(file[0]);
-					reader.readAsDataURL(file[0]);
+					reader.readAsBinaryString(file[0]);
 				}
 				ext = file[0].name.match(/\.\w+$/);
 				size = file[0].size / 1048576;
