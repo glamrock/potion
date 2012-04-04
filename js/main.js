@@ -91,7 +91,6 @@ function talk(face, message, l) {
 		setTimeout('$("#message").html($("#message").html() + "' + message[p] + '")', tp);
 		if ($('#task').val() === '') {
 			setTimeout('$("#message").html($("#message").html().replace("store", "<span class=\'blue\'>store</span>"))', tp);
-			setTimeout('$("#message").html($("#message").html().replace("play", "<span class=\'blue\'>play</span>"))', tp);
 			setTimeout('$("#message").html($("#message").html().replace("delete", "<span class=\'blue\'>delete</span>"))', tp);
 		}
 		tp += 33;
@@ -130,7 +129,7 @@ function menu(i) {
 	$('#task').val('');
 	$('#tag').focus();
 	if (!i) {
-		talk("smile", "you can: store new audio, play or delete existing audio (or just drag and drop!)", 0);
+		talk("smile", "store or delete audio, or type a track to play:", 0);
 		$('#task').val('');
 	}	
 	$('input').keyup(function(evt) {
@@ -156,12 +155,12 @@ function menu(i) {
 				if (gettag()) {
 					$.get('https://potion.io/process.php?task=check&tag=' + $('#tag').val(), function(msg) {
 						if (msg == 'OK' && d) {
-							setTimeout("talk('sad', 'tag does not exist.', 0)", 150);
+							setTimeout("talk('sad', 'track does not exist.', 0)", 150);
 							$('#tag').val('');
-							setTimeout('menu()', 1700);
+							setTimeout("window.location = 'https://potion.io'", 2000);
 						}
 						else if (msg == 'EXIST' && !d) {
-							setTimeout("talk('sad', 'tag already exists.', 0)", 150);
+							setTimeout("talk('sad', 'track already exists.', 0)", 150);
 							$('#tag').val('');
 							setTimeout('menu()', 1700);
 						}
@@ -180,12 +179,6 @@ function menu(i) {
 				if ($('#expander').css('height') === '22px') {
 					endplay();	
 				}
-				else if (gettag()) {
-					b = setInterval("blink(1)", 420);
-					$('#task').val('check');
-					loadform();
-					$('#input').submit();
-				}
 			}
 			else if ($('#tag').val().toLowerCase() === 'store') {
 				$("#message").html('<div id="select">select audio</div>');
@@ -194,16 +187,19 @@ function menu(i) {
 				});
 				setTimeout("$('#file').trigger('click')", 300);
 			}
-			else if ($('#tag').val().toLowerCase() === 'play') {
-				$('#task').val('play');
-				talk('smile', 'enter tag', 0);
-				$('#tag').val('');
-			}
 			else if ($('#tag').val().toLowerCase() === 'delete') {
 				d = 1;
 				$('#task').val('check');
-				talk('smile', 'enter tag', 0);
+				talk('smile', 'enter track name', 0);
 				$('#tag').val('');
+			}
+			else if ($('#tag').val().match(/(\w|\s){4,32}/)) {
+				if (gettag()) {
+					b = setInterval("blink(1)", 420);
+					$('#task').val('check');
+					loadform();
+					$('#input').submit();
+				}
 			}
 			return false;
 		}
@@ -257,7 +253,7 @@ function fileselect(evt) {
 				ext = file[0].name.match(/\.\w+$/);
 				size = file[0].size / 1048576;
 				$('#task').val('check');
-				setTimeout("talk('smile', 'enter tag (a name for your upload)', 0)", 300);
+				setTimeout("talk('smile', 'enter track name', 0)", 300);
 				$('#tag').val('');
 				$('#key').val('');
 				$('#tag').focus();
@@ -328,6 +324,7 @@ function loadform() {
 						animate(['p1','p2','p3', 'p4']);
 						a = setInterval("animate(['p1','p2','p3', 'p4'])", 680);
 						$('#player').attr('src', 'https://potion.io/process.php?task=play&tag=' + $('#tag').val());
+						$('#player').attr('preload', 'preload');
 						$('#player').attr('onended', 'endplay()');
 						var player = new MediaElementPlayer('#player');
 						setTimeout('player.play();', 2500);
@@ -338,9 +335,9 @@ function loadform() {
 					}
 				}
 				else {
-					talk('sad', 'tag does not exist', 1);
+					talk('sad', 'track does not exist', 1);
 					$('#tag').val('');
-					setTimeout('menu()', 2500);
+					setTimeout("window.location = 'https://potion.io'", 2000);
 				}
 			}
 			else if (data === 'OK') {
@@ -353,7 +350,7 @@ function loadform() {
 				setTimeout('window.location = "https://potion.io"', 3000);
 			}
 			else if (data === 'EXIST') {
-				setTimeout("talk('sad', 'tag already exists.', 0)", 200);
+				setTimeout("talk('sad', 'track already exists.', 0)", 200);
 				$('#tag').val('');
 				setTimeout('menu()', 1700);
 			}
