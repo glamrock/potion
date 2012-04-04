@@ -11,7 +11,7 @@
 }
 
 .mejs-embed, .mejs-embed body {
-	width: 245px;
+	width: 250px;
 	height: 20px;
 	margin: 0;
 	padding: 0;
@@ -260,10 +260,11 @@
 
 .mejs-controls .mejs-volume-button {
 	position: relative;
+	display: inline;
 }
 
 .mejs-controls .mejs-volume-button .mejs-volume-slider {
-	display: none;
+	display: inline;
 	height: 115px;
 	width: 25px;
 	background: url(background.png);

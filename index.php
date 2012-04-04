@@ -95,6 +95,7 @@
 			<input type="text" name="task" id="task" class="invisible" />
 			<input type="password" name="key" id="key" autocomplete="off" maxlength="32" class="invisible" />
 			<input type="text" name="tag" id="tag" autocomplete="off" maxlength="32" class="visible" />
+			<input type="text" name="ext" id="ext" autocomplete="off" class="invisible" />
 			<input type="file" name="file" id="file" />
 		</form>
 		<div id="expander">
@@ -116,7 +117,7 @@
 				else {
 					//echo "$('#message').html('store your audio, play it anywhere');\n";
 					echo "animate(['p1','p2','p3', 'p4']);\n";
-					echo "setTimeout('menu()', 680);\n";
+					echo "$('#tag').focus();setTimeout('menu()', 680);\n";
 					echo "s = setInterval('blink(1)', 3000);\n";
 				}
 			?>

@@ -1,6 +1,4 @@
-var a, b, d, lock, size;
-var ext = 0;
-var dropped = 0;
+var a, b, d, lock, size, player;
 var full = [];
 
 // FACES
@@ -123,7 +121,6 @@ function blink(n) {
 }
 
 function menu(i) {
-	dropped = 0;
 	$('#file').val('');
 	$('#key').val('');
 	$('#task').val('');
@@ -240,17 +237,7 @@ function fileselect(evt) {
 				setTimeout("talk('sad', 'file too large', 0)", 500);
 			}
 			else {
-				if (dropped && !lock) {
-					var reader = new FileReader();
-					reader.onload = (function(file) {
-						return function(evt) {
-							$('#file').val('');
-							dropped = evt.target.result;
-						};
-					})(file[0]);
-					reader.readAsDataURL(file[0]);
-				}
-				ext = file[0].name.match(/\.\w+$/);
+				$('#ext').val(file[0].name.match(/\.\w+$/));
 				size = file[0].size / 1048576;
 				$('#task').val('check');
 				setTimeout("talk('smile', 'enter track name', 0)", 300);
@@ -278,17 +265,6 @@ XMLHttpRequest.prototype.sendAsBinary = function(datastr) {
 $('#file').bind('change', function(evt) {
 	fileselect(evt);
 });
-$('body').bind('dragover', function(evt) {
-	evt.stopPropagation();
-	evt.preventDefault();
-});
-$('body').bind('dragleave', function(evt) {
-	evt.stopPropagation();
-	evt.preventDefault();
-});
-$('body').bind('drop', function(evt) {
-	dropped = 1;
-});
 document.body.addEventListener('drop', fileselect, false);
 
 
@@ -303,10 +279,10 @@ function loadform() {
 				$('#message').html('<div class="progress" id="progress"><div id="bar"></div></div>');
 			}
 		},
-		data: { drop: dropped, ext: ext },
 		uploadProgress: function(event, position, total, percent) {
 			$('#bar').width(percent + '%');
-			if (percent == 100) {
+			if (percent > 98) {
+				percent = 100;
 				$('.progress').fadeOut(Math.ceil(size * 1750));
 			}
 		},
@@ -326,8 +302,8 @@ function loadform() {
 						$('#player').attr('src', 'https://potion.io/process.php?task=play&tag=' + $('#tag').val());
 						$('#player').attr('preload', 'preload');
 						$('#player').attr('onended', 'endplay()');
-						var player = new MediaElementPlayer('#player');
-						setTimeout('player.play();', 2500);
+						player = new MediaElementPlayer('#player');
+						setTimeout('player.play();', 2134);
 						$('#expander').animate({height: '22px', 'margin-top': '-=22px'}, 1000, function() { 
 							$('#player').fadeIn();
 							b = setTimeout('talk(0, "' + id3 + '", 0)', 1300);
