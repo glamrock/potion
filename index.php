@@ -20,6 +20,7 @@
 	<script type="text/javascript" src="js/mediaelement.js"></script>
 </head>
 <body>
+	<a href="a" class="about">about</a>
 	<div class="main">
 		<div class="box">
 			<table>
@@ -96,7 +97,7 @@
 			<input type="password" name="key" id="key" autocomplete="off" maxlength="32" class="invisible" />
 			<input type="text" name="tag" id="tag" autocomplete="off" maxlength="32" class="visible" />
 			<input type="text" name="ext" id="ext" autocomplete="off" class="invisible" />
-			<input type="file" name="file" id="file" />
+			<input type="file" name="file" id="file" multiple="" />
 		</form>
 		<div id="expander">
 			<audio id="player" type="audio/webm" src="#" controls="controls">
@@ -115,7 +116,6 @@
 					echo "$('#task').val('check'); $('#tag').val('".$_GET['p']."'); loadform(); $('#input').submit();\n";
 				}
 				else {
-					//echo "$('#message').html('store your audio, play it anywhere');\n";
 					echo "animate(['p1','p2','p3', 'p4']);\n";
 					echo "$('#tag').focus();setTimeout('menu()', 680);\n";
 					echo "s = setInterval('blink(1)', 3000);\n";
@@ -123,6 +123,5 @@
 			?>
 		});
 	</script>
-	<a href="a" class="about">about</a>
 </body>
 </html>
