@@ -14,11 +14,11 @@ if ($_POST) {
 
 if (isset($_GET)) {
 	if (sourcecheck()
-	&& preg_match('/^(\w|\s){4,64}$/', $_GET['tag'])
+	&& preg_match('/^(\w|\s){4,64}$/', $_GET['tag'], $tag) === 1
 	&& $_GET['tag'] != 'play'
 	&& $_GET['tag'] != 'store') {
-		$_GET['tag'] = strtolower($_GET['tag']);
-		$tag = hash('ripemd160', hash('sha512', $_GET['tag']));
+		$tag = strtolower($tag[0]);
+		$tag = hash('ripemd160', hash('sha512', $tag));
 		$tagkey = substr(hash('sha512', $_GET['tag']), 0, 32);
 		if ($_GET['task'] == 'play') {
 			if (file_exists($store.$tag.'.webm')) {
@@ -49,7 +49,7 @@ if (isset($_GET)) {
 				require_once('id3/getid3.php');
 				$tmp = $_FILES['file']['tmp_name'].$_GET['ext'];
 				rename($_FILES['file']['tmp_name'], $tmp);
-				system('ffmpeg -b:a 160k -i '.$tmp.' '.$store.$tag.'.webm');
+				system(escapeshellcmd('ffmpeg -b:a 160k -i '.$tmp.' '.$store.$tag.'.webm'));
 				$getID3 = new getID3;
 				$id3 = $getID3->analyze($store.$tag.'.webm');
 				$options = hash('sha512', $_GET['key']).$id3['matroska']['comments']['title'][0].$endid3;
